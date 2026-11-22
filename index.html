@@ -1,0 +1,3160 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0" />
+  <title>Cổng Thông Tin Học Tập Tin Học 12 - Hành Trình Số | THPT Phan Đình Phùng</title>
+  <style>
+    /* =========================================================================
+       1. THIẾT LẬP CƠ BẢN & BIẾN MÀU (100% CSS THUẦN - KHÔNG DÙNG CDN NGOÀI)
+       ========================================================================= */
+    :root {
+      --blue-deep: #003d82;
+      --blue-royal: #004a99;
+      --blue-nav: #0b4a9f;
+      --blue-bright: #0066cc;
+      --blue-vivid: #1d4ed8;
+      --navy-ink: #0a1142;
+      --emerald-head: #0f6b5c;
+      --red-title: #d32f2f;
+      --red-banner: #e60000;
+      --red-main: #dc2626;
+      --green-main: #15803d;
+      --orange-main: #ea580c;
+      --purple-main: #7c3aed;
+      --teal-main: #0d9488;
+      --gold: #ffeb3b;
+      --gold-warm: #fbbf24;
+      --bg-page: #edf2f7;
+      --bg-card: #ffffff;
+      --text-main: #0f172a;
+      --text-sub: #475569;
+      --border-soft: #dbe4ef;
+      --shadow-sm: 0 2px 8px rgba(15, 23, 42, 0.07);
+      --shadow-md: 0 6px 20px rgba(15, 23, 42, 0.11);
+      --banner-overlay-alpha: 0.35;
+    }
+
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html, body {
+      max-width: 100%;
+      overflow-x: hidden;
+      font-family: system-ui, -apple-system, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+      background-color: var(--bg-page);
+      color: var(--text-main);
+      font-size: 15.5px;
+      line-height: 1.55;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    .site-shell {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    button, a, label, input, select, textarea {
+      font-family: inherit;
+      font-size: 16px;
+      touch-action: manipulation;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    button, a, label {
+      cursor: pointer;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    svg {
+      display: inline-block;
+      vertical-align: middle;
+      flex-shrink: 0;
+      pointer-events: none;
+    }
+
+    .container {
+      width: 100%;
+      max-width: 1320px;
+      margin: 0 auto;
+      padding: 0 14px;
+    }
+
+    .hidden {
+      display: none !important;
+    }
+
+    /* Ẩn radio điều khiển (hoạt động 100% trên iOS QuickLook/Zalo/Safari) */
+    .sr-radio {
+      position: absolute;
+      opacity: 0;
+      width: 1px;
+      height: 1px;
+      margin: -1px;
+      overflow: hidden;
+      clip: rect(0, 0, 0, 0);
+      white-space: nowrap;
+      border: 0;
+      pointer-events: none;
+    }
+
+    /* =========================================================================
+       2. BANNER ĐẦU TRANG (HỖ TRỢ ẢNH NỀN TÙY CHỈNH, CHỮ LỚN HÀI HÒA, LOGO CÂN ĐỐI)
+       ========================================================================= */
+    .site-banner {
+      background-color: #cde6ff;
+      background-image: linear-gradient(135deg, #b8dcff 0%, #e6f3ff 48%, #a8d4ff 100%);
+      background-size: cover;
+      background-position: center center;
+      background-repeat: no-repeat;
+      color: var(--navy-ink);
+      position: relative;
+      overflow: hidden;
+      border-bottom: 3.5px solid var(--red-banner);
+    }
+
+    /* Lớp phủ mờ nhẹ giúp chữ luôn nổi bật khi chèn ảnh nền */
+    .site-banner::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: rgba(255, 255, 255, var(--banner-overlay-alpha));
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    /* Khi chưa có ảnh nền, hiện lưới kẻ mờ trang trí nhẹ */
+    .site-banner:not(.has-bg-image)::before {
+      background-color: transparent;
+      background-image:
+        linear-gradient(rgba(10, 17, 66, 0.045) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(10, 17, 66, 0.045) 1px, transparent 1px);
+      background-size: 26px 26px;
+    }
+
+    .banner-inner {
+      position: relative;
+      z-index: 1;
+      width: 100%;
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      padding: 8px 10px;
+      min-height: 86px;
+    }
+
+    /* Khung tròn Logo Trường - Phóng to hài hòa với ảnh bên phải */
+    .logo-frame {
+      width: 56px;
+      height: 56px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.94);
+      border: 2.5px dashed var(--navy-ink);
+      box-shadow: 0 5px 16px rgba(10, 17, 66, 0.22);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      flex-shrink: 0;
+      padding: 0;
+      color: var(--navy-ink);
+      transition: transform 0.2s ease;
+    }
+
+    .logo-frame:hover {
+      transform: scale(1.04);
+    }
+
+    .logo-frame img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      background: #ffffff;
+      padding: 4px;
+    }
+
+    .logo-placeholder {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 2px;
+      font-size: 8.5px;
+      font-weight: 800;
+      line-height: 1.1;
+      text-align: center;
+      color: var(--navy-ink);
+    }
+
+    .logo-placeholder svg {
+      width: 19px;
+      height: 19px;
+    }
+
+    /* Cụm chữ giữa Banner - Căn giữa, cỡ chữ lớn và có viền sáng nổi bật trên ảnh nền */
+    .banner-center {
+      flex: 1;
+      min-width: 0;
+      text-align: center;
+      padding: 0 2px;
+    }
+
+    .banner-eyebrow {
+      font-size: 8.5px;
+      font-weight: 800;
+      color: var(--navy-ink);
+      letter-spacing: 0.25px;
+      text-transform: uppercase;
+      line-height: 1.2;
+      margin-bottom: 2px;
+      text-shadow: 0 1px 4px rgba(255, 255, 255, 0.95), 0 0 10px rgba(255, 255, 255, 0.9);
+    }
+
+    .banner-title {
+      color: var(--red-banner);
+      font-size: 13.5px;
+      font-weight: 900;
+      line-height: 1.18;
+      text-transform: uppercase;
+      letter-spacing: 0.2px;
+      text-shadow:
+        0 1.5px 0 rgba(255, 255, 255, 0.98),
+        0 -1px 0 rgba(255, 255, 255, 0.92),
+        1px 0 0 rgba(255, 255, 255, 0.92),
+        -1px 0 0 rgba(255, 255, 255, 0.92),
+        0 3px 10px rgba(10, 17, 66, 0.2);
+    }
+
+    .banner-sub {
+      color: var(--navy-ink);
+      font-size: 9.2px;
+      font-weight: 800;
+      margin-top: 2px;
+      line-height: 1.2;
+      text-shadow: 0 1px 4px rgba(255, 255, 255, 0.95), 0 0 10px rgba(255, 255, 255, 0.9);
+    }
+
+    /* Khung ảnh học sinh ôn thi bên phải - Cân đối với Logo & Chữ */
+    .student-frame {
+      width: 86px;
+      aspect-ratio: 16 / 10;
+      border-radius: 9px;
+      border: 2px solid #ffffff;
+      box-shadow: 0 6px 18px rgba(10, 17, 66, 0.26);
+      overflow: hidden;
+      background: linear-gradient(135deg, #0284c7 0%, #0369a1 55%, #0a1142 100%);
+      position: relative;
+      padding: 0;
+      flex-shrink: 0;
+      display: block;
+      transition: transform 0.2s ease;
+    }
+
+    .student-frame:hover {
+      transform: scale(1.02);
+    }
+
+    .student-frame img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .student-placeholder {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .student-caption {
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: linear-gradient(to top, rgba(10, 17, 66, 0.92), rgba(10, 17, 66, 0.18));
+      color: #ffffff;
+      font-size: 8.2px;
+      font-weight: 700;
+      padding: 3px 4px 2px;
+      text-align: center;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    /* =========================================================================
+       3. THANH ĐIỀU HƯỚNG 8 MỤC (CHỮ TO RÕ, BẤM THUẦN CSS 100%)
+       ========================================================================= */
+    .main-navbar {
+      background: var(--blue-nav);
+      border-top: none;
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      box-shadow: 0 3px 10px rgba(0, 20, 60, 0.24);
+    }
+
+    .nav-wrap {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: center;
+      gap: 5px 7px;
+      padding: 7px 6px;
+    }
+
+    .nav-btn {
+      min-height: 35px;
+      padding: 6px 9px;
+      border-bottom: 3px solid transparent;
+      border-radius: 7px;
+      background: transparent;
+      color: #ffffff;
+      font-size: 11.8px;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.2px;
+      white-space: nowrap;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 5px;
+      user-select: none;
+      transition: background 0.15s ease, color 0.15s ease;
+    }
+
+    .nav-btn:hover {
+      background: rgba(255, 255, 255, 0.15);
+    }
+
+    #tab-home:checked ~ .main-navbar label[for="tab-home"],
+    #tab-tinhoc12:checked ~ .main-navbar label[for="tab-tinhoc12"],
+    #tab-ontap:checked ~ .main-navbar label[for="tab-ontap"],
+    #tab-thithu:checked ~ .main-navbar label[for="tab-thithu"],
+    #tab-lab:checked ~ .main-navbar label[for="tab-lab"],
+    #tab-sotay:checked ~ .main-navbar label[for="tab-sotay"],
+    #tab-giasu:checked ~ .main-navbar label[for="tab-giasu"],
+    #tab-lienhe:checked ~ .main-navbar label[for="tab-lienhe"] {
+      background: #ffffff;
+      color: var(--blue-royal);
+      border-bottom-color: var(--gold);
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.18);
+    }
+
+    .tab-view {
+      display: none;
+    }
+
+    #tab-home:checked ~ .page-main #view-home,
+    #tab-tinhoc12:checked ~ .page-main #view-tinhoc12,
+    #tab-ontap:checked ~ .page-main #view-ontap,
+    #tab-thithu:checked ~ .page-main #view-thithu,
+    #tab-lab:checked ~ .page-main #view-lab,
+    #tab-sotay:checked ~ .page-main #view-sotay,
+    #tab-giasu:checked ~ .page-main #view-giasu,
+    #tab-lienhe:checked ~ .page-main #view-lienhe {
+      display: block;
+    }
+
+    /* =========================================================================
+       4. THANH DÒNG CHỮ CHẠY (MARQUEE) NGAY DƯỚI MENU
+       ========================================================================= */
+    .ticker-bar {
+      background: #fff9db;
+      border-bottom: 2px solid #fde047;
+      display: flex;
+      align-items: center;
+      height: 38px;
+      overflow: hidden;
+      position: relative;
+      box-shadow: 0 1px 4px rgba(234, 179, 8, 0.16);
+    }
+
+    .ticker-icon-box {
+      flex-shrink: 0;
+      height: 100%;
+      padding: 0 13px;
+      background: #fef08a;
+      border-right: 1px solid #fde047;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 2;
+    }
+
+    .ticker-viewport {
+      flex: 1;
+      overflow: hidden;
+      white-space: nowrap;
+      display: flex;
+      align-items: center;
+    }
+
+    .ticker-text {
+      display: inline-block;
+      padding-left: 100%;
+      color: #dc2626;
+      font-size: 13.5px;
+      font-weight: 800;
+      letter-spacing: 0.25px;
+      animation: marqueeRun 24s linear infinite;
+    }
+
+    .ticker-bar:hover .ticker-text {
+      animation-play-state: paused;
+    }
+
+    @keyframes marqueeRun {
+      0%   { transform: translateX(0); }
+      100% { transform: translateX(-100%); }
+    }
+
+    /* =========================================================================
+       5. NỘI DUNG CHÍNH & TRANG CHỦ PORTAL
+       ========================================================================= */
+    main.page-main {
+      flex: 1;
+      padding: 16px 0 32px;
+    }
+
+    .portal-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 18px;
+      align-items: start;
+    }
+
+    .portal-col-left   { order: 1; }
+    .portal-col-center { order: 2; }
+    .portal-col-right  { order: 3; }
+
+    .portal-box {
+      background: var(--bg-card);
+      border-radius: 14px;
+      border: 1px solid var(--border-soft);
+      box-shadow: var(--shadow-sm);
+      overflow: hidden;
+      margin-bottom: 18px;
+    }
+
+    .portal-box:last-child {
+      margin-bottom: 0;
+    }
+
+    .cat-card-header {
+      background: var(--emerald-head);
+      color: #ffffff;
+      padding: 14px 16px;
+      font-size: 16px;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.3px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .cat-list {
+      list-style: none;
+      background: #ffffff;
+    }
+
+    .cat-item {
+      border-bottom: 1px solid #eef2f6;
+    }
+
+    .cat-item:last-child {
+      border-bottom: none;
+    }
+
+    .cat-row-btn {
+      width: 100%;
+      min-height: 54px;
+      padding: 11px 14px;
+      background: #ffffff;
+      color: #1e293b;
+      font-size: 15.5px;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      text-align: left;
+      transition: background 0.14s ease;
+    }
+
+    .cat-row-btn:hover, .cat-row-btn:active {
+      background: #f0f9ff;
+      color: var(--blue-royal);
+    }
+
+    .cat-icon-sq {
+      width: 36px;
+      height: 36px;
+      border-radius: 9px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      color: #ffffff;
+      box-shadow: 0 2px 6px rgba(15, 23, 42, 0.15);
+    }
+
+    .sq-blue   { background: #2563eb; }
+    .sq-green  { background: #16a34a; }
+    .sq-red    { background: #dc2626; }
+    .sq-orange { background: #ea580c; }
+    .sq-purple { background: #9333ea; }
+    .sq-teal   { background: #0d9488; }
+    .sq-indigo { background: #4f46e5; }
+
+    .quick-box-head {
+      background: var(--blue-royal);
+      color: #ffffff;
+      padding: 12px 15px;
+      font-size: 15px;
+      font-weight: 800;
+      text-transform: uppercase;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .quick-box-body {
+      padding: 12px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .quick-pill {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      min-height: 46px;
+      padding: 10px 14px;
+      border-radius: 10px;
+      font-size: 15px;
+      font-weight: 800;
+      color: #ffffff;
+    }
+
+    .qp-red { background: #dc2626; }
+    .qp-cyan { background: #0284c7; }
+    .qp-navy { background: #004a99; }
+    .qp-outline { background: #f8fafc; color: #004a99; border: 1.5px solid #0284c7; }
+
+    .box-head-slant {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 2px solid var(--blue-bright);
+      background: #ffffff;
+    }
+
+    .slant-label {
+      background: linear-gradient(90deg, var(--blue-royal), var(--blue-bright));
+      color: #ffffff;
+      font-size: 14.5px;
+      font-weight: 800;
+      text-transform: uppercase;
+      padding: 11px 24px 11px 14px;
+      clip-path: polygon(0 0, calc(100% - 16px) 0, 100% 100%, 0 100%);
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+    }
+
+    .slant-action {
+      padding: 6px 12px;
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--blue-bright);
+    }
+
+    .hero-spotlight {
+      background: linear-gradient(135deg, #003d82 0%, #0066cc 65%, #0284c7 100%);
+      color: #ffffff;
+      padding: 20px 18px;
+    }
+
+    .hero-top-badges {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      margin-bottom: 11px;
+    }
+
+    .badge-red {
+      background: var(--red-main);
+      color: #ffffff;
+      font-size: 12.5px;
+      font-weight: 800;
+      padding: 5px 11px;
+      border-radius: 6px;
+      text-transform: uppercase;
+    }
+
+    .badge-glass {
+      background: rgba(255, 255, 255, 0.2);
+      color: #ffffff;
+      font-size: 12.5px;
+      font-weight: 700;
+      padding: 5px 11px;
+      border-radius: 6px;
+    }
+
+    .hero-spotlight h2 {
+      font-size: 22px;
+      font-weight: 900;
+      color: var(--gold);
+      line-height: 1.3;
+      margin-bottom: 9px;
+      text-transform: uppercase;
+    }
+
+    .hero-spotlight p {
+      font-size: 15.5px;
+      color: #e0f2fe;
+      margin-bottom: 16px;
+    }
+
+    .hero-btn-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      min-height: 46px;
+      padding: 10px 18px;
+      border-radius: 9px;
+      border: none;
+      font-size: 15.5px;
+      font-weight: 800;
+      text-align: center;
+    }
+
+    .btn-gold { background: var(--gold); color: #003575; }
+    .btn-red { background: var(--red-main); color: #ffffff; }
+    .btn-blue { background: var(--blue-vivid); color: #ffffff; }
+    .btn-green { background: var(--green-main); color: #ffffff; }
+    .btn-sm { min-height: 40px; padding: 6px 14px; font-size: 14px; border-radius: 8px; }
+
+    .news-tabs {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      border-bottom: 2px solid var(--blue-bright);
+    }
+
+    .news-tab-btn {
+      min-height: 46px;
+      padding: 10px 8px;
+      background: var(--blue-bright);
+      color: #ffffff;
+      font-size: 14px;
+      font-weight: 800;
+      text-transform: uppercase;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+    }
+
+    #news-hot:checked ~ .news-tabs label[for="news-hot"],
+    #news-latest:checked ~ .news-tabs label[for="news-latest"] {
+      background: #ffffff;
+      color: var(--blue-royal);
+    }
+
+    .news-list {
+      display: none;
+      list-style: none;
+      padding: 12px 16px;
+    }
+
+    #news-hot:checked ~ .news-list-hot,
+    #news-latest:checked ~ .news-list-latest {
+      display: block;
+    }
+
+    .news-list li {
+      padding: 10px 0 10px 18px;
+      border-bottom: 1px dashed #dbe4ef;
+      font-size: 15px;
+      color: #1e293b;
+      position: relative;
+    }
+
+    .news-list li:last-child { border-bottom: none; }
+
+    .news-list li::before {
+      content: "";
+      position: absolute;
+      left: 0;
+      top: 18px;
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: var(--blue-bright);
+    }
+
+    .news-list li.hot::before { background: var(--red-main); }
+
+    .roadmap-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 12px;
+      padding: 15px;
+    }
+
+    .roadmap-card {
+      background: #f0f9ff;
+      border: 1px solid #bae6fd;
+      border-radius: 10px;
+      padding: 13px 14px;
+      display: block;
+      text-align: left;
+    }
+
+    .roadmap-title {
+      font-size: 15.5px;
+      font-weight: 800;
+      color: var(--blue-royal);
+      margin-bottom: 4px;
+    }
+
+    .roadmap-desc {
+      font-size: 14.5px;
+      color: var(--text-sub);
+    }
+
+    .rank-table-wrap {
+      padding: 10px 12px 12px;
+      overflow-x: auto;
+    }
+
+    .rank-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 14.5px;
+    }
+
+    .rank-table th {
+      background: var(--blue-royal);
+      color: #ffffff;
+      padding: 9px 6px;
+      text-align: left;
+      font-weight: 700;
+      white-space: nowrap;
+    }
+
+    .rank-table td {
+      padding: 9px 6px;
+      border-bottom: 1px solid #e2e8f0;
+      color: #1e293b;
+    }
+
+    .rank-table tr:last-child td { border-bottom: none; }
+    .rank-num { font-weight: 800; text-align: center; }
+    .rank-1 { color: var(--red-main); }
+    .rank-2 { color: var(--blue-vivid); }
+    .rank-3 { color: var(--green-main); }
+    .rank-score { font-weight: 800; color: var(--blue-royal); }
+
+    .exam-cta-card {
+      background: linear-gradient(135deg, #dc2626 0%, #b91c1c 100%);
+      color: #ffffff;
+      border-radius: 14px;
+      padding: 18px;
+      box-shadow: 0 6px 16px rgba(220, 38, 38, 0.25);
+    }
+
+    .exam-cta-card h3 {
+      font-size: 16.5px;
+      font-weight: 900;
+      color: var(--gold);
+      text-transform: uppercase;
+      margin-bottom: 8px;
+      display: flex;
+      align-items: center;
+      gap: 7px;
+    }
+
+    .exam-cta-card p {
+      font-size: 14.8px;
+      color: #fee2e2;
+      margin-bottom: 15px;
+    }
+
+    /* =========================================================================
+       6. HỆ THỐNG THƯ MỤC 2 CẤP TỰ ĐỘNG TỪ DANH SÁCH DỮ LIỆU
+       ========================================================================= */
+    .panel-white {
+      background: var(--bg-card);
+      border-radius: 16px;
+      border: 1px solid var(--border-soft);
+      box-shadow: var(--shadow-md);
+      padding: 20px 15px;
+    }
+
+    .panel-title {
+      text-align: center;
+      font-size: 22px;
+      font-weight: 900;
+      color: #d32f2f;
+      text-transform: uppercase;
+      letter-spacing: 0.3px;
+      margin-bottom: 12px;
+      line-height: 1.3;
+    }
+
+    .panel-sub {
+      text-align: center;
+      font-size: 15px;
+      color: var(--text-sub);
+      margin: -4px auto 18px;
+      max-width: 780px;
+    }
+
+    .pill-search {
+      max-width: 480px;
+      margin: 0 auto 22px;
+      position: relative;
+    }
+
+    .pill-search svg {
+      position: absolute;
+      left: 16px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: #2563eb;
+    }
+
+    .pill-search input {
+      width: 100%;
+      height: 48px;
+      padding: 0 18px 0 46px;
+      border-radius: 999px;
+      border: 2.5px solid #2563eb;
+      background: #ffffff;
+      color: var(--text-main);
+      font-size: 15.5px;
+      outline: none;
+      box-shadow: 0 3px 10px rgba(37, 99, 235, 0.12);
+    }
+
+
+    /* Chế độ dự phòng 100% Pure CSS (hiển thị đầy đủ cả khi mở file trực tiếp trên iPhone/Zalo không chạy JS) */
+    .ex-panel { display: none; }
+    #f12-root:checked ~ .ex-f12-root,
+    #f12-chung:checked ~ .ex-f12-chung,
+    #f12-ict:checked ~ .ex-f12-ict,
+    #fot-root:checked ~ .ex-fot-root,
+    #fot-mucdo:checked ~ .ex-fot-mucdo,
+    #fot-bay:checked ~ .ex-fot-bay,
+    #fot-dungsai:checked ~ .ex-fot-dungsai,
+    #ftt-root:checked ~ .ex-ftt-root,
+    #ftt-bo:checked ~ .ex-ftt-bo,
+    #ftt-ict:checked ~ .ex-ftt-ict,
+    #flh-root:checked ~ .ex-flh-root,
+    #flh-thacmac:checked ~ .ex-flh-thacmac,
+    #flh-tailieu:checked ~ .ex-flh-tailieu,
+    #flh-huongdan:checked ~ .ex-flh-huongdan,
+    #flh-chiase:checked ~ .ex-flh-chiase {
+      display: block;
+    }
+
+    .folder-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 20px;
+    }
+
+    .folder-card {
+      border-radius: 16px;
+      padding: 12px 12px 0 12px;
+      box-shadow: 0 8px 18px rgba(15, 23, 42, 0.15);
+      display: flex;
+      flex-direction: column;
+      text-align: left;
+      width: 100%;
+      border: none;
+      transition: transform 0.15s ease, box-shadow 0.15s ease;
+    }
+
+    .folder-card:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 12px 24px rgba(15, 23, 42, 0.2);
+    }
+
+    .folder-card:active {
+      transform: scale(0.985);
+    }
+
+    .fc-red    { background: #dc2626; }
+    .fc-blue   { background: #1d4ed8; }
+    .fc-green  { background: #15803d; }
+    .fc-orange { background: #ea580c; }
+    .fc-purple { background: #7c3aed; }
+    .fc-teal   { background: #0d9488; }
+
+    .folder-cover {
+      width: 100%;
+      aspect-ratio: 16 / 9;
+      border-radius: 11px;
+      overflow: hidden;
+      background: #ffffff;
+      position: relative;
+    }
+
+    .folder-cover img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .folder-label-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      padding: 14px 6px 15px;
+      color: #ffffff;
+    }
+
+    .folder-label-left {
+      display: flex;
+      align-items: center;
+      gap: 9px;
+      font-size: 16.5px;
+      font-weight: 800;
+      line-height: 1.3;
+    }
+
+    .folder-count-pill {
+      flex-shrink: 0;
+      background: rgba(255, 255, 255, 0.22);
+      color: #ffffff;
+      font-size: 13px;
+      font-weight: 800;
+      padding: 4px 11px;
+      border-radius: 999px;
+    }
+
+    .level2-topbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-bottom: 14px;
+    }
+
+    .back-folder-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      min-height: 44px;
+      padding: 8px 18px;
+      border-radius: 999px;
+      border: 2px solid var(--blue-royal);
+      background: #eff6ff;
+      color: var(--blue-royal);
+      font-size: 15px;
+      font-weight: 800;
+    }
+
+    .lesson-tile-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 14px;
+    }
+
+    .lesson-tile {
+      border-radius: 14px;
+      padding: 17px 16px;
+      min-height: 92px;
+      color: #ffffff;
+      display: flex;
+      align-items: center;
+      gap: 13px;
+      box-shadow: 0 5px 14px rgba(15, 23, 42, 0.14);
+      transition: transform 0.15s ease, filter 0.15s ease;
+    }
+
+    .lesson-tile:hover {
+      transform: translateY(-2px);
+      filter: brightness(1.06);
+    }
+
+    .tile-icon-box {
+      flex-shrink: 0;
+      width: 32px;
+      height: 32px;
+      font-size: 23px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .tile-title {
+      font-size: 16px;
+      font-weight: 800;
+      line-height: 1.4;
+      color: #ffffff;
+      text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+    }
+
+    .tile-c0 { background: #dc2626; }
+    .tile-c1 { background: #1d4ed8; }
+    .tile-c2 { background: #16a34a; }
+    .tile-c3 { background: #ea580c; }
+    .tile-c4 { background: #9333ea; }
+    .tile-c5 { background: #ca8a04; }
+    .tile-c6 { background: #0d9488; }
+    .tile-c7 { background: #1e293b; }
+
+    .empty-msg {
+      grid-column: 1 / -1;
+      text-align: center;
+      color: #64748b;
+      padding: 28px 12px;
+      font-size: 16px;
+      font-weight: 600;
+    }
+
+    /* =========================================================================
+       7. PHÒNG LAB CODE HTML/CSS
+       ========================================================================= */
+    .chip-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 12px;
+      align-items: center;
+    }
+
+    .chip-btn {
+      min-height: 42px;
+      padding: 7px 15px;
+      border-radius: 999px;
+      border: 1.5px solid #cbd5e1;
+      background: #f8fafc;
+      color: #334155;
+      font-size: 14.5px;
+      font-weight: 700;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .chip-btn.active {
+      background: var(--blue-vivid);
+      border-color: var(--blue-vivid);
+      color: #ffffff;
+    }
+
+    .lab-task-note {
+      background: #eff6ff;
+      border-left: 4px solid var(--blue-vivid);
+      padding: 13px 15px;
+      border-radius: 10px;
+      font-size: 15px;
+      color: #1e293b;
+      margin-bottom: 12px;
+    }
+
+    .lab-grade-box {
+      padding: 13px 15px;
+      border-radius: 12px;
+      font-size: 15px;
+      margin-bottom: 12px;
+      border: 1.5px solid #cbd5e1;
+    }
+
+    .lab-grade-box.ok { background: #ecfdf5; border-color: #34d399; color: #065f46; }
+    .lab-grade-box.warn { background: #fffbeb; border-color: #fbbf24; color: #92400e; }
+    .lab-grade-box ul { margin-top: 6px; padding-left: 18px; }
+
+    .lab-mobile-switch {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+      margin-bottom: 10px;
+    }
+
+    .lab-switch-btn {
+      min-height: 46px;
+      border-radius: 10px;
+      border: 2px solid var(--blue-vivid);
+      background: #ffffff;
+      color: var(--blue-vivid);
+      font-weight: 800;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    #lab-tab-code:checked ~ .lab-mobile-switch label[for="lab-tab-code"],
+    #lab-tab-prev:checked ~ .lab-mobile-switch label[for="lab-tab-prev"] {
+      background: var(--blue-vivid);
+      color: #ffffff;
+    }
+
+    .lab-split {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 14px;
+    }
+
+    .lab-pane {
+      border: 1.5px solid #cbd5e1;
+      border-radius: 12px;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      background: #ffffff;
+    }
+
+    #lab-tab-code:checked ~ .lab-split .lab-pane-prev { display: none; }
+    #lab-tab-prev:checked ~ .lab-split .lab-pane-code { display: none; }
+
+    .lab-pane-head {
+      background: #0f172a;
+      color: #7dd3fc;
+      padding: 10px 14px;
+      font-size: 14px;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .lab-pane-head.light {
+      background: #f1f5f9;
+      color: #334155;
+      border-bottom: 1px solid #cbd5e1;
+    }
+
+    .lab-editor {
+      width: 100%;
+      height: 340px;
+      background: #1e293b;
+      color: #e2e8f0;
+      font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+      font-size: 14px;
+      line-height: 1.55;
+      padding: 13px;
+      border: none;
+      outline: none;
+      resize: vertical;
+    }
+
+    .lab-preview {
+      width: 100%;
+      height: 340px;
+      border: none;
+      background: #ffffff;
+    }
+
+    /* =========================================================================
+       8. SỔ TAY HTML, GIA SƯ AI & BIỂU MẪU LIÊN HỆ
+       ========================================================================= */
+    #hb-all:checked ~ .hb-filter-row label[for="hb-all"],
+    #hb-html:checked ~ .hb-filter-row label[for="hb-html"],
+    #hb-css:checked ~ .hb-filter-row label[for="hb-css"],
+    #hb-ainet:checked ~ .hb-filter-row label[for="hb-ainet"] {
+      background: var(--blue-vivid);
+      border-color: var(--blue-vivid);
+      color: #ffffff;
+    }
+
+    #hb-html:checked ~ .hb-grid .hb-card:not([data-cat="html"]),
+    #hb-css:checked ~ .hb-grid .hb-card:not([data-cat="css"]),
+    #hb-ainet:checked ~ .hb-grid .hb-card:not([data-cat="ai-net"]) {
+      display: none;
+    }
+
+    .hb-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 14px;
+    }
+
+    .hb-card {
+      background: #ffffff;
+      border: 1.5px solid #e2e8f0;
+      border-radius: 12px;
+      padding: 15px;
+      display: flex;
+      flex-direction: column;
+      gap: 9px;
+    }
+
+    .hb-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+    }
+
+    .hb-tag {
+      font-family: ui-monospace, Menlo, Consolas, monospace;
+      font-size: 16px;
+      font-weight: 800;
+      color: var(--blue-royal);
+    }
+
+    .hb-syn {
+      font-family: ui-monospace, Menlo, Consolas, monospace;
+      font-size: 13.5px;
+      background: #fef2f2;
+      color: #b91c1c;
+      padding: 7px 10px;
+      border-radius: 8px;
+      overflow-x: auto;
+    }
+
+    .hb-ex {
+      font-family: ui-monospace, Menlo, Consolas, monospace;
+      font-size: 13.5px;
+      background: #f1f5f9;
+      color: #0f172a;
+      padding: 8px 10px;
+      border-radius: 8px;
+      overflow-x: auto;
+    }
+
+    .chat-box {
+      background: #f8fafc;
+      border: 1.5px solid #cbd5e1;
+      border-radius: 14px;
+      padding: 15px;
+      height: 330px;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      margin: 12px 0;
+    }
+
+    .chat-bubble {
+      max-width: 88%;
+      padding: 12px 15px;
+      border-radius: 14px;
+      font-size: 15px;
+      line-height: 1.55;
+      word-wrap: break-word;
+    }
+
+    .chat-bubble.bot {
+      align-self: flex-start;
+      background: #ffffff;
+      border: 1px solid #cbd5e1;
+      border-bottom-left-radius: 4px;
+    }
+
+    .chat-bubble.user {
+      align-self: flex-end;
+      background: var(--blue-vivid);
+      color: #ffffff;
+      border-bottom-right-radius: 4px;
+    }
+
+    .chat-form-row {
+      display: flex;
+      gap: 8px;
+      align-items: flex-end;
+    }
+
+    .chat-input {
+      flex: 1;
+      min-height: 48px;
+      padding: 10px 14px;
+      border-radius: 12px;
+      border: 2px solid #cbd5e1;
+      outline: none;
+      resize: none;
+    }
+
+    .contact-form-card {
+      margin-top: 22px;
+      background: #f8fafc;
+      border: 1.5px solid #cbd5e1;
+      border-radius: 14px;
+      padding: 18px;
+    }
+
+    .form-group { margin-bottom: 13px; }
+    .form-label { display: block; font-size: 15px; font-weight: 700; color: var(--blue-royal); margin-bottom: 5px; }
+    .form-input {
+      width: 100%;
+      min-height: 46px;
+      padding: 10px 14px;
+      border-radius: 10px;
+      border: 1.5px solid #cbd5e1;
+      background: #ffffff;
+      outline: none;
+    }
+
+    /* =========================================================================
+       9. CHÂN TRANG XANH LỤC BẢO ĐẬM
+       ========================================================================= */
+    .site-footer {
+      background: linear-gradient(135deg, #064e3b 0%, #042f2e 100%);
+      border-top: 3px solid #14b8a6;
+      color: #d1fae5;
+      padding: 36px 0 28px;
+      margin-top: auto;
+    }
+
+    .footer-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 24px;
+    }
+
+    .footer-brand {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 22px;
+      font-weight: 900;
+      color: var(--gold-warm);
+      text-transform: uppercase;
+      letter-spacing: 0.4px;
+      margin-bottom: 10px;
+    }
+
+    .footer-desc {
+      font-size: 15px;
+      color: #a7f3d0;
+      line-height: 1.65;
+    }
+
+    .footer-heading {
+      font-size: 16px;
+      font-weight: 800;
+      color: #ffffff;
+      text-transform: uppercase;
+      letter-spacing: 0.4px;
+      padding-bottom: 8px;
+      margin-bottom: 13px;
+      position: relative;
+    }
+
+    .footer-heading::after {
+      content: "";
+      position: absolute;
+      left: 0;
+      bottom: 0;
+      width: 58px;
+      height: 2px;
+      background: #14b8a6;
+    }
+
+    .footer-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 11px;
+    }
+
+    .footer-link-btn {
+      color: #ccfbf1;
+      font-size: 15px;
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      text-align: left;
+    }
+
+    .footer-link-btn:hover {
+      color: var(--gold-warm);
+    }
+
+    .footer-link-btn .arrow {
+      color: #2dd4bf;
+      font-weight: 800;
+    }
+
+    .footer-copy-box {
+      margin-top: 26px;
+      padding: 15px 18px;
+      border-radius: 10px;
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid rgba(255, 255, 255, 0.24);
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      color: #ffffff;
+      font-size: 15px;
+      line-height: 1.55;
+    }
+
+    .toast {
+      display: none;
+      position: fixed;
+      left: 50%;
+      bottom: 22px;
+      transform: translateX(-50%);
+      background: #0f172a;
+      color: #ffffff;
+      border: 1.5px solid var(--gold);
+      padding: 12px 20px;
+      border-radius: 999px;
+      font-size: 14.5px;
+      font-weight: 700;
+      box-shadow: 0 8px 22px rgba(0, 0, 0, 0.3);
+      z-index: 95;
+      max-width: 92vw;
+      text-align: center;
+    }
+
+    .toast.show { display: block; }
+
+    /* =========================================================================
+       10. RESPONSIVE TABLET (>= 680px), DESKTOP (>= 960px) & WIDE (>= 1160px)
+       ========================================================================= */
+    @media (min-width: 680px) {
+      .site-banner { border-bottom-width: 5px; }
+      .banner-inner { padding: 16px 14px; gap: 18px; min-height: 170px; }
+      .logo-frame { width: 112px; height: 112px; border-width: 3px; }
+      .logo-placeholder { font-size: 13px; gap: 4px; }
+      .logo-placeholder svg { width: 32px; height: 32px; }
+      .banner-eyebrow { font-size: 14px; margin-bottom: 5px; }
+      .banner-title { font-size: 25px; }
+      .banner-sub { font-size: 15px; margin-top: 6px; }
+      .student-frame { width: 220px; border-radius: 13px; border-width: 3px; }
+      .student-caption { font-size: 12px; padding: 5px 8px 4px; }
+
+      .panel-white { padding: 26px 24px; }
+      .panel-title { font-size: 26px; }
+      .folder-grid { grid-template-columns: repeat(2, 1fr); gap: 22px; }
+      .lesson-tile-grid { grid-template-columns: repeat(2, 1fr); }
+      .roadmap-grid { grid-template-columns: repeat(2, 1fr); }
+      .hb-grid { grid-template-columns: repeat(2, 1fr); }
+      .footer-grid { grid-template-columns: repeat(2, 1fr); }
+    }
+
+    @media (min-width: 960px) {
+      html, body { font-size: 16.5px; }
+      .banner-inner { padding: 16px 18px 16px 6px; gap: 18px; min-height: 214px; }
+      .logo-frame { width: 146px; height: 146px; border-width: 3.5px; }
+      .logo-placeholder { font-size: 15.5px; gap: 6px; }
+      .logo-placeholder svg { width: 40px; height: 40px; }
+      .banner-center { text-align: center; padding: 0 8px; }
+      .banner-eyebrow { font-size: 16.5px; margin-bottom: 7px; letter-spacing: 0.5px; }
+      .banner-title { font-size: clamp(24px, 2.5vw, 35px); letter-spacing: 0.3px; white-space: nowrap; }
+      .banner-sub { font-size: 17.5px; margin-top: 8px; }
+      .student-frame { width: 280px; border-radius: 14px; border-width: 3.5px; }
+      .student-caption { font-size: 13px; padding: 6px 10px 5px; }
+
+      .nav-wrap { gap: 6px 10px; padding: 10px 12px; }
+      .nav-btn { min-height: 40px; font-size: 14.5px; padding: 9px 14px; border-radius: 8px; }
+      .ticker-bar { height: 42px; }
+      .ticker-text { font-size: 16px; }
+
+      .portal-grid {
+        grid-template-columns: 300px 1fr 310px;
+        gap: 18px;
+      }
+
+      .lesson-tile-grid {
+        grid-template-columns: repeat(4, 1fr);
+        gap: 16px;
+      }
+
+      .lab-mobile-switch { display: none; }
+      .lab-split { grid-template-columns: 1fr 1fr; }
+      #lab-tab-code:checked ~ .lab-split .lab-pane-prev,
+      #lab-tab-prev:checked ~ .lab-split .lab-pane-code {
+        display: flex !important;
+      }
+      .lab-editor, .lab-preview { height: 420px; }
+
+      .footer-grid {
+        grid-template-columns: 1.5fr 1fr 1fr 1fr;
+        gap: 32px;
+      }
+    }
+
+    @media (min-width: 1180px) {
+      .banner-inner { padding: 18px 22px 18px 6px; min-height: 230px; gap: 22px; }
+      .logo-frame { width: 164px; height: 164px; }
+      .logo-placeholder { font-size: 17.5px; }
+      .logo-placeholder svg { width: 46px; height: 46px; }
+      .banner-eyebrow { font-size: 18.5px; }
+      .banner-title { font-size: clamp(30px, 2.75vw, 40px); white-space: nowrap; }
+      .banner-sub { font-size: 19px; }
+      .student-frame { width: 325px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="site-shell">
+    <!-- 8 RADIO ĐIỀU HƯỚNG CHÍNH (PURE CSS TABS) -->
+    <input type="radio" name="main-nav" id="tab-home" class="sr-radio" checked />
+    <input type="radio" name="main-nav" id="tab-tinhoc12" class="sr-radio" />
+    <input type="radio" name="main-nav" id="tab-ontap" class="sr-radio" />
+    <input type="radio" name="main-nav" id="tab-thithu" class="sr-radio" />
+    <input type="radio" name="main-nav" id="tab-lab" class="sr-radio" />
+    <input type="radio" name="main-nav" id="tab-sotay" class="sr-radio" />
+    <input type="radio" name="main-nav" id="tab-giasu" class="sr-radio" />
+    <input type="radio" name="main-nav" id="tab-lienhe" class="sr-radio" />
+
+    <!-- =========================================================================
+         1. BANNER ĐẦU TRANG
+         * Kéo xuống mục "CAU_HINH_BANNER" ở cuối file để chèn ảnh nền, logo và ảnh học sinh!
+         ========================================================================= -->
+    <header id="siteBanner" class="site-banner">
+      <div class="banner-inner">
+        <label for="logoFileInput" class="logo-frame" title="Bấm để chọn ảnh Logo trường xem thử">
+          <img id="schoolLogoImg" src="" alt="Logo Trường THPT Phan Đình Phùng" class="hidden" />
+          <div id="schoolLogoPh" class="logo-placeholder">
+            <svg viewBox="0 0 24 24" fill="none" stroke="#0a1142" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M3 21h18"/><path d="M5 21V9l7-5 7 5v12"/><path d="M9 21v-6h6v6"/>
+            </svg>
+            <span>Logo<br/>Trường</span>
+          </div>
+        </label>
+        <input id="logoFileInput" type="file" accept="image/*" class="hidden" />
+
+        <div class="banner-center">
+          <div class="banner-eyebrow">🎊  HỆ THỐNG HỌC LIỆU ĐIỆN TỬ  🎊 </div>
+          <h1 class="banner-title">CỔNG THÔNG TIN HỌC TẬP TIN HỌC 12</h1>
+          <div class="banner-sub">🎆  Ôn thi Tốt nghiệp THPT (GDPT 2018 - Định hướng ICT) 🎆</div>
+        </div>
+
+        <label for="studentFileInput" class="student-frame" title="Bấm để chọn ảnh Học sinh ôn thi xem thử">
+          <img id="studentPhotoImg" src="" alt="Ảnh học sinh ôn thi Tin học 12" class="hidden" />
+          <div id="studentPhotoPh" class="student-placeholder">
+            <svg viewBox="0 0 320 200" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">
+              <rect x="10" y="10" width="300" height="180" rx="12" fill="rgba(255,255,255,0.08)" stroke="rgba(255,255,255,0.5)" stroke-dasharray="6 5" stroke-width="1.8"/>
+              <rect x="82" y="28" width="156" height="84" rx="9" fill="#0f172a" stroke="#ffeb3b" stroke-width="2.2"/>
+              <text x="160" y="66" text-anchor="middle" fill="#ffeb3b" font-size="18" font-weight="bold" font-family="monospace">&lt;HTML/CSS&gt;</text>
+              <text x="160" y="92" text-anchor="middle" fill="#e0f2fe" font-size="13.5" font-family="sans-serif">Ôn thi Tin học 12</text>
+              <circle cx="44" cy="70" r="15" fill="#fde047"/>
+              <path d="M24 126 C24 96, 64 96, 64 126" fill="#ffffff" fill-opacity="0.92"/>
+              <circle cx="276" cy="70" r="15" fill="#fde047"/>
+              <path d="M256 126 C256 96, 296 96, 296 126" fill="#ffffff" fill-opacity="0.92"/>
+            </svg>
+          </div>
+          <div id="studentCaption" class="student-caption">Ảnh học sinh ôn thi</div>
+        </label>
+        <input id="studentFileInput" type="file" accept="image/*" class="hidden" />
+      </div>
+    </header>
+
+    <!-- 2. THANH ĐIỀU HƯỚNG 8 MỤC -->
+    <nav class="main-navbar" aria-label="Điều hướng chính">
+      <div class="container nav-wrap">
+        <label for="tab-home" class="nav-btn">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 3 2 12h3v8h6v-6h2v6h6v-8h3L12 3Z"/></svg>
+          <span>TRANG CHỦ</span>
+        </label>
+        <label for="tab-tinhoc12" class="nav-btn">TIN HỌC 12</label>
+        <label for="tab-ontap" class="nav-btn">ÔN TẬP CHỦ ĐỀ</label>
+        <label for="tab-thithu" class="nav-btn">THI THỬ TN</label>
+        <label for="tab-lab" class="nav-btn">PHÒNG LAB CODE</label>
+        <label for="tab-sotay" class="nav-btn">SỔ TAY HTML</label>
+        <label for="tab-giasu" class="nav-btn">GIA SƯ AI</label>
+        <label for="tab-lienhe" class="nav-btn">LIÊN HỆ</label>
+      </div>
+    </nav>
+
+    <!-- 3. THANH DÒNG CHỮ CHẠY -->
+    <div class="ticker-bar" role="region" aria-label="Thông báo chạy ngang">
+      <div class="ticker-icon-box" aria-hidden="true">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#dc2626" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round">
+          <path d="m3 11 18-5v12L3 14v-3z"/>
+          <path d="M11.6 16.8a3 3 0 1 1-5.8-1.6"/>
+        </svg>
+      </div>
+      <div class="ticker-viewport">
+        <div class="ticker-text">
+          🎉 CHÀO MỪNG CÁC EM HỌC SINH KHỐI 12 ĐẾN VỚI CỔNG THÔNG TIN HỌC TẬP TIN HỌC 12! 🎉 CHÚC CÁC EM ÔN TẬP HIỆU QUẢ VÀ ĐẠT ĐIỂM CAO TRONG KỲ THI TỐT NGHIỆP THPT!
+        </div>
+      </div>
+    </div>
+
+    <!-- 4. NỘI DUNG CHÍNH (8 PHÂN KHU) -->
+    <main class="page-main">
+      <div class="container">
+
+        <!-- PHÂN KHU 1: TRANG CHỦ -->
+        <section id="view-home" class="tab-view">
+          <div class="portal-grid">
+            <aside class="portal-col-left">
+              <div class="portal-box">
+                <div class="cat-card-header">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round">
+                    <line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/>
+                  </svg>
+                  <span>DANH MỤC HỌC TẬP</span>
+                </div>
+                <ul class="cat-list">
+                  <li class="cat-item">
+                    <label for="tab-tinhoc12" class="cat-row-btn">
+                      <span class="cat-icon-sq sq-blue">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
+                      </span>
+                      <span>Tin học 12 – Nội dung bài học (Định hướng ICT)</span>
+                    </label>
+                  </li>
+                  <li class="cat-item">
+                    <label for="tab-ontap" class="cat-row-btn">
+                      <span class="cat-icon-sq sq-green">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 17 12 22 22 17"/><polyline points="2 12 12 17 22 12"/></svg>
+                      </span>
+                      <span>Ôn tập chủ đề &amp; Luyện Đúng/Sai 4 ý</span>
+                    </label>
+                  </li>
+                  <li class="cat-item">
+                    <label for="tab-thithu" class="cat-row-btn">
+                      <span class="cat-icon-sq sq-red">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="12" cy="13" r="8"/><polyline points="12 9 12 13 15 15"/><line x1="9" y1="2" x2="15" y2="2"/></svg>
+                      </span>
+                      <span>Đề thi thử Tốt nghiệp THPT (50 phút)</span>
+                    </label>
+                  </li>
+                  <li class="cat-item">
+                    <label for="tab-lab" class="cat-row-btn">
+                      <span class="cat-icon-sq sq-orange">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
+                      </span>
+                      <span>Phòng Lab thực hành Code HTML/CSS</span>
+                    </label>
+                  </li>
+                  <li class="cat-item">
+                    <label for="tab-sotay" class="cat-row-btn">
+                      <span class="cat-icon-sq sq-purple">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="8" y1="13" x2="16" y2="13"/><line x1="8" y1="17" x2="14" y2="17"/></svg>
+                      </span>
+                      <span>Sổ tay thẻ HTML &amp; Thuật ngữ AI/Mạng</span>
+                    </label>
+                  </li>
+                  <li class="cat-item">
+                    <label for="tab-giasu" class="cat-row-btn">
+                      <span class="cat-icon-sq sq-indigo">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><rect x="3" y="11" width="18" height="10" rx="2"/><circle cx="12" cy="5" r="2"/><path d="M12 7v4"/></svg>
+                      </span>
+                      <span>Gia sư AI giải mã code &amp; Lộ trình cá nhân</span>
+                    </label>
+                  </li>
+                  <li class="cat-item">
+                    <label for="tab-lienhe" class="cat-row-btn">
+                      <span class="cat-icon-sq sq-teal">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+                      </span>
+                      <span>Liên hệ, Tài liệu PDF &amp; Góc chia sẻ</span>
+                    </label>
+                  </li>
+                </ul>
+              </div>
+
+              <div class="portal-box">
+                <div class="quick-box-head">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="#ffeb3b"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+                  <span>HỘP TRUY CẬP NHANH</span>
+                </div>
+                <div class="quick-box-body">
+                  <label for="tab-thithu" class="quick-pill qp-red"><span>Phòng thi thử 50 phút</span><span>&rsaquo;</span></label>
+                  <label for="tab-lab" class="quick-pill qp-cyan"><span>Mở Phòng Lab HTML/CSS</span><span>&rsaquo;</span></label>
+                  <label for="tab-giasu" class="quick-pill qp-navy"><span>Hỏi Gia sư AI ngay</span><span>&rsaquo;</span></label>
+                  <label for="tab-sotay" class="quick-pill qp-outline"><span>Tra cứu Sổ tay HTML</span><span>&rsaquo;</span></label>
+                </div>
+              </div>
+            </aside>
+
+            <div class="portal-col-center">
+              <div class="portal-box">
+                <div class="hero-spotlight">
+                  <div class="hero-top-badges">
+                    <span class="badge-red">&#9733; TIÊU ĐIỂM ÔN THI 2026</span>
+                    <span class="badge-glass">GDPT 2018</span>
+                  </div>
+                  <h2>CHINH PHỤC KỲ THI TỐT NGHIỆP THPT MÔN TIN HỌC 12</h2>
+                  <p>
+                    Học liệu chuẩn SGK Kết nối tri thức với cuộc sống theo <strong>Định hướng Tin học ứng dụng (ICT)</strong>. Thực hành gõ HTML/CSS trực tiếp trên điện thoại và luyện đề chuẩn Bộ GD&amp;ĐT.
+                  </p>
+                  <div class="hero-btn-row">
+                    <label for="tab-tinhoc12" class="btn btn-gold">Vào học ngay</label>
+                    <label for="tab-thithu" class="btn btn-red">Thi thử 50 phút</label>
+                  </div>
+                </div>
+
+                <div class="news-box">
+                  <input type="radio" name="home-news" id="news-hot" class="sr-radio" checked />
+                  <input type="radio" name="home-news" id="news-latest" class="sr-radio" />
+                  <div class="news-tabs">
+                    <label for="news-hot" class="news-tab-btn">TIN NỔI BẬT ÔN THI</label>
+                    <label for="news-latest" class="news-tab-btn">CẬP NHẬT MỚI NHẤT</label>
+                  </div>
+                  <ul class="news-list news-list-hot">
+                    <li>Áp dụng chuẩn thang điểm lũy tiến Bộ GD&amp;ĐT cho câu hỏi Đúng/Sai (0,1 – 0,25 – 0,5 – 1,0đ).</li>
+                    <li class="hot">Mới: 3 thử thách thực hành HTML/CSS chấm cấu trúc thẻ tự động ngay trên điện thoại.</li>
+                    <li>Tra cứu nhanh: Phân biệt Hub, Switch, Router và mạng LAN/WAN trong Sổ tay thuật ngữ.</li>
+                    <li class="hot">Gia sư AI hỗ trợ bắt lỗi code HTML &amp; giải thích từng mệnh đề Đúng/Sai 24/7.</li>
+                    <li>Tải miễn phí tờ tóm tắt thẻ HTML/CSS bản in A4 giai đoạn nước rút tại mục Liên hệ.</li>
+                  </ul>
+                  <ul class="news-list news-list-latest">
+                    <li class="hot">Nâng cấp Banner hỗ trợ ảnh nền tùy chỉnh, phóng to chữ và Logo hài hòa trên mọi màn hình!</li>
+                    <li>Tập trung toàn bộ dữ liệu đường dẫn file .html ở cuối file, cực dễ cập nhật.</li>
+                    <li>Bổ sung hệ thống câu hỏi luyện tập theo 3 mức độ Nhận biết – Thông hiểu – Vận dụng.</li>
+                    <li>Tập trung chuyên sâu theo chuẩn Định hướng Tin học ứng dụng (ICT).</li>
+                  </ul>
+                </div>
+              </div>
+
+              <div class="portal-box">
+                <div class="box-head-slant">
+                  <div class="slant-label">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><circle cx="6" cy="6" r="3"/><circle cx="18" cy="18" r="3"/><path d="M8.5 8.5 15.5 15.5"/></svg>
+                    <span>LỘ TRÌNH 4 BƯỚC ĐẠT ĐIỂM CAO</span>
+                  </div>
+                </div>
+                <div class="roadmap-grid">
+                  <label for="tab-tinhoc12" class="roadmap-card">
+                    <div class="roadmap-title">Bước 1: Nắm chắc lý thuyết</div>
+                    <div class="roadmap-desc">Học theo sơ đồ &amp; từ khóa cốt lõi cho Phần chung và Định hướng ICT.</div>
+                  </label>
+                  <label for="tab-lab" class="roadmap-card">
+                    <div class="roadmap-title">Bước 2: Code tại Phòng Lab</div>
+                    <div class="roadmap-desc">Gõ HTML/CSS xem kết quả ngay trên điện thoại và chấm tự động.</div>
+                  </label>
+                  <label for="tab-ontap" class="roadmap-card">
+                    <div class="roadmap-title">Bước 3: Tránh bẫy &amp; Đúng/Sai</div>
+                    <div class="roadmap-desc">Rèn dạng 4 ý phân hóa điểm cao và ghi nhớ mẹo tránh lỗi sai.</div>
+                  </label>
+                  <label for="tab-thithu" class="roadmap-card">
+                    <div class="roadmap-title">Bước 4: Thi thử &amp; Hỏi AI</div>
+                    <div class="roadmap-desc">Làm đề 50 phút chuẩn Bộ GD&amp;ĐT và hỏi Gia sư AI bù lỗ hổng.</div>
+                  </label>
+                </div>
+              </div>
+            </div>
+
+            <aside class="portal-col-right">
+              <div class="portal-box">
+                <div class="box-head-slant">
+                  <div class="slant-label">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="#ffeb3b"><path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"/><path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"/><path d="M4 22h16"/><path d="M18 2H6v7a6 6 0 0 0 12 0V2Z"/></svg>
+                    <span>BẢNG XẾP HẠNG THI THỬ</span>
+                  </div>
+                  <label for="tab-thithu" class="slant-action">Thi ngay &raquo;</label>
+                </div>
+                <div class="rank-table-wrap">
+                  <table class="rank-table">
+                    <thead>
+                      <tr>
+                        <th style="text-align:center;">STT</th>
+                        <th>Họ tên</th>
+                        <th>Lớp</th>
+                        <th>Điểm</th>
+                        <th>Ngày</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr><td class="rank-num rank-1">1</td><td style="font-weight:600;">Trần Gia Huy</td><td>12A1</td><td class="rank-score">9.25</td><td style="color:#64748b;font-size:13px;">15/11/2026</td></tr>
+                      <tr><td class="rank-num rank-2">2</td><td style="font-weight:600;">Lê Ngọc Khánh</td><td>12A6</td><td class="rank-score">8.75</td><td style="color:#64748b;font-size:13px;">18/11/2026</td></tr>
+                      <tr><td class="rank-num rank-3">3</td><td style="font-weight:600;">Phạm Hoàng Nam</td><td>12A3</td><td class="rank-score">8.10</td><td style="color:#64748b;font-size:13px;">20/11/2026</td></tr>
+                      <tr><td class="rank-num">4</td><td style="font-weight:600;">Nguyễn Thảo Vy</td><td>12A2</td><td class="rank-score">7.85</td><td style="color:#64748b;font-size:13px;">21/11/2026</td></tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+
+              <div class="exam-cta-card">
+                <h3>
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#ffeb3b" stroke-width="2.4"><circle cx="12" cy="13" r="8"/><polyline points="12 9 12 13 15 15"/><line x1="9" y1="2" x2="15" y2="2"/></svg>
+                  <span>PHÒNG THI THỬ 1 CHẠM - 50 PHÚT</span>
+                </h3>
+                <p>Không cần đăng nhập phức tạp. Tự động chấm điểm lũy tiến chuẩn Bộ GD&amp;ĐT (0,1 – 0,25 – 0,5 – 1,0đ) theo Định hướng ICT.</p>
+                <label for="tab-thithu" class="btn btn-gold" style="width:100%;">VÀO PHÒNG THI NGAY &rarr;</label>
+              </div>
+            </aside>
+          </div>
+        </section>
+
+        <!-- PHÂN KHU 2: TIN HỌC 12 (Tự động vẽ từ dữ liệu ở cuối file) -->
+        <section id="view-tinhoc12" class="tab-view">
+          <div id="mount-tinhoc12" class="panel-white">
+            <input type="radio" name="nav-f12" id="f12-root" class="sr-radio" checked />
+            <input type="radio" name="nav-f12" id="f12-chung" class="sr-radio" />
+            <input type="radio" name="nav-f12" id="f12-ict" class="sr-radio" />
+
+            <div class="ex-panel ex-f12-root">
+              <h2 class="panel-title">TIN HỌC 12 – CHƯƠNG TRÌNH GDPT 2018</h2>
+              <p class="panel-sub">Chọn thư mục Phần chung hoặc Định hướng ICT (Tin học ứng dụng) để xem danh sách bài học chi tiết.</p>
+              <div class="folder-grid">
+                <label for="f12-chung" class="folder-card fc-red">
+                  <div class="folder-cover">
+                    <svg viewBox="0 0 400 225" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">
+                      <defs><linearGradient id="g12a" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#7f1d1d"/><stop offset="100%" stop-color="#dc2626"/></linearGradient></defs>
+                      <rect width="400" height="225" fill="url(#g12a)"/>
+                      <rect x="24" y="24" width="352" height="177" rx="14" fill="rgba(255,255,255,0.08)" stroke="rgba(255,255,255,0.3)" stroke-width="1.5"/>
+                      <rect x="55" y="42" width="290" height="28" rx="14" fill="#1d4ed8"/>
+                      <text x="200" y="60" text-anchor="middle" fill="#fff" font-size="11.5" font-weight="800" font-family="system-ui,sans-serif">CHỦ ĐỀ A • B • D • E • F</text>
+                      <text x="200" y="114" text-anchor="middle" fill="#ffeb3b" font-size="22" font-weight="900" font-family="system-ui,sans-serif">PHẦN CHUNG GDPT 2018</text>
+                      <text x="200" y="144" text-anchor="middle" fill="#fee2e2" font-size="13" font-weight="600" font-family="system-ui,sans-serif">SGK Kết nối tri thức • Tin học 12</text>
+                      <rect x="135" y="162" width="130" height="24" rx="12" fill="rgba(255,255,255,0.2)"/>
+                      <text x="200" y="178" text-anchor="middle" fill="#fff" font-size="11.5" font-weight="700" font-family="system-ui,sans-serif">6 bài</text>
+                    </svg>
+                  </div>
+                  <div class="folder-label-row">
+                    <div class="folder-label-left"><span>Phần chung – Kiến thức cốt lõi GDPT 2018</span></div>
+                    <span class="folder-count-pill">6 bài</span>
+                  </div>
+                </label>
+
+                <label for="f12-ict" class="folder-card fc-green">
+                  <div class="folder-cover">
+                    <svg viewBox="0 0 400 225" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">
+                      <defs><linearGradient id="g12c" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#064e3b"/><stop offset="100%" stop-color="#15803d"/></linearGradient></defs>
+                      <rect width="400" height="225" fill="url(#g12c)"/>
+                      <rect x="24" y="24" width="352" height="177" rx="14" fill="rgba(255,255,255,0.08)" stroke="rgba(255,255,255,0.3)" stroke-width="1.5"/>
+                      <rect x="55" y="42" width="290" height="28" rx="14" fill="#059669"/>
+                      <text x="200" y="60" text-anchor="middle" fill="#fff" font-size="11.5" font-weight="800" font-family="system-ui,sans-serif">TIN HỌC ỨNG DỤNG</text>
+                      <text x="200" y="114" text-anchor="middle" fill="#fde047" font-size="22" font-weight="900" font-family="system-ui,sans-serif">ĐỊNH HƯỚNG ICT 12</text>
+                      <text x="200" y="144" text-anchor="middle" fill="#d1fae5" font-size="13" font-weight="600" font-family="system-ui,sans-serif">Thiết kế Website • Quản trị Web</text>
+                      <rect x="135" y="162" width="130" height="24" rx="12" fill="rgba(255,255,255,0.2)"/>
+                      <text x="200" y="178" text-anchor="middle" fill="#fff" font-size="11.5" font-weight="700" font-family="system-ui,sans-serif">4 bài</text>
+                    </svg>
+                  </div>
+                  <div class="folder-label-row">
+                    <div class="folder-label-left"><span>Định hướng ICT – Tin học ứng dụng</span></div>
+                    <span class="folder-count-pill">4 bài</span>
+                  </div>
+                </label>
+              </div>
+            </div>
+
+            <div class="ex-panel ex-f12-chung">
+              <div class="level2-topbar"><label for="f12-root" class="back-folder-btn">&larr; Quay lại thư mục</label><span style="font-size:14px;font-weight:700;color:#475569;">6 bài</span></div>
+              <h2 class="panel-title">PHẦN CHUNG – KIẾN THỨC CỐT LÕI GDPT 2018</h2>
+              <div class="lesson-tile-grid">
+                <a href="#" class="lesson-tile tile-c0"><div class="tile-icon-box">🤖</div><div class="tile-title">Bài 1. Trí tuệ nhân tạo (AI) và ứng dụng đời sống</div></a>
+                <a href="#" class="lesson-tile tile-c1"><div class="tile-icon-box">🔌</div><div class="tile-title">Bài 2. Thiết bị mạng thông dụng (Hub, Switch, Router)</div></a>
+                <a href="#" class="lesson-tile tile-c2"><div class="tile-icon-box">📡</div><div class="tile-title">Bài 3. Giao thức mạng TCP/IP và chia sẻ tài nguyên</div></a>
+                <a href="#" class="lesson-tile tile-c3"><div class="tile-icon-box">🤝</div><div class="tile-title">Bài 4. Giao tiếp và ứng xử nhân văn trên không gian mạng</div></a>
+                <a href="#" class="lesson-tile tile-c4"><div class="tile-icon-box">📝</div><div class="tile-title">Bài 5. Ngôn ngữ HTML5: Văn bản, Bảng, Liên kết, Biểu mẫu</div></a>
+                <a href="#" class="lesson-tile tile-c5"><div class="tile-icon-box">🎨</div><div class="tile-title">Bài 6. Định dạng trang web với CSS, Bộ chọn &amp; Box Model</div></a>
+              </div>
+            </div>
+
+            <div class="ex-panel ex-f12-ict">
+              <div class="level2-topbar"><label for="f12-root" class="back-folder-btn">&larr; Quay lại thư mục</label><span style="font-size:14px;font-weight:700;color:#475569;">4 bài</span></div>
+              <h2 class="panel-title">ĐỊNH HƯỚNG ICT – TIN HỌC ỨNG DỤNG</h2>
+              <div class="lesson-tile-grid">
+                <a href="#" class="lesson-tile tile-c0"><div class="tile-icon-box">🧭</div><div class="tile-title">Chủ đề ICT 1. Quy trình thiết kế và lập kế hoạch Website</div></a>
+                <a href="#" class="lesson-tile tile-c1"><div class="tile-icon-box">🧩</div><div class="tile-title">Chủ đề ICT 2. Tạo phần đầu trang (Header) &amp; Thanh điều hướng</div></a>
+                <a href="#" class="lesson-tile tile-c2"><div class="tile-icon-box">📰</div><div class="tile-title">Chủ đề ICT 3. Xây dựng thân trang, Đa phương tiện &amp; Biểu mẫu</div></a>
+                <a href="#" class="lesson-tile tile-c3"><div class="tile-icon-box">🚀</div><div class="tile-title">Chủ đề ICT 4. Hoàn thiện, tối ưu di động &amp; Xuất bản Website</div></a>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- PHÂN KHU 3: ÔN TẬP CHỦ ĐỀ (Tự động vẽ từ dữ liệu ở cuối file) -->
+        <section id="view-ontap" class="tab-view">
+          <div id="mount-ontap" class="panel-white">
+            <input type="radio" name="nav-fot" id="fot-root" class="sr-radio" checked />
+            <input type="radio" name="nav-fot" id="fot-mucdo" class="sr-radio" />
+            <input type="radio" name="nav-fot" id="fot-bay" class="sr-radio" />
+            <input type="radio" name="nav-fot" id="fot-dungsai" class="sr-radio" />
+
+            <div class="ex-panel ex-fot-root">
+              <h2 class="panel-title">ÔN TẬP CHỦ ĐỀ &amp; LUYỆN THI CHUYÊN SÂU</h2>
+              <p class="panel-sub">Hệ thống hóa kiến thức theo ma trận đề thi Tốt nghiệp THPT của Bộ GD&amp;ĐT.</p>
+              <div class="folder-grid">
+                <label for="fot-mucdo" class="folder-card fc-red">
+                  <div class="folder-cover">
+                    <svg viewBox="0 0 400 225" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">
+                      <defs><linearGradient id="gota" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#7f1d1d"/><stop offset="100%" stop-color="#dc2626"/></linearGradient></defs>
+                      <rect width="400" height="225" fill="url(#gota)"/>
+                      <rect x="24" y="24" width="352" height="177" rx="14" fill="rgba(255,255,255,0.08)" stroke="rgba(255,255,255,0.3)" stroke-width="1.5"/>
+                      <rect x="55" y="42" width="290" height="28" rx="14" fill="#1d4ed8"/>
+                      <text x="200" y="60" text-anchor="middle" fill="#fff" font-size="11.5" font-weight="800" font-family="system-ui,sans-serif">NHẬN BIẾT • THÔNG HIỂU • VẬN DỤNG</text>
+                      <text x="200" y="114" text-anchor="middle" fill="#ffeb3b" font-size="22" font-weight="900" font-family="system-ui,sans-serif">PHÂN LOẠI MỨC ĐỘ</text>
+                      <text x="200" y="144" text-anchor="middle" fill="#fee2e2" font-size="13" font-weight="600" font-family="system-ui,sans-serif">Theo ma trận đề thi Bộ GD&amp;ĐT</text>
+                      <rect x="135" y="162" width="130" height="24" rx="12" fill="rgba(255,255,255,0.2)"/>
+                      <text x="200" y="178" text-anchor="middle" fill="#fff" font-size="11.5" font-weight="700" font-family="system-ui,sans-serif">6 gói</text>
+                    </svg>
+                  </div>
+                  <div class="folder-label-row"><div class="folder-label-left"><span>Phân loại Nhận biết – Thông hiểu – Vận dụng</span></div><span class="folder-count-pill">6 gói</span></div>
+                </label>
+
+                <label for="fot-bay" class="folder-card fc-orange">
+                  <div class="folder-cover">
+                    <svg viewBox="0 0 400 225" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">
+                      <defs><linearGradient id="gotb" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#7c2d12"/><stop offset="100%" stop-color="#ea580c"/></linearGradient></defs>
+                      <rect width="400" height="225" fill="url(#gotb)"/>
+                      <rect x="24" y="24" width="352" height="177" rx="14" fill="rgba(255,255,255,0.08)" stroke="rgba(255,255,255,0.3)" stroke-width="1.5"/>
+                      <rect x="55" y="42" width="290" height="28" rx="14" fill="#dc2626"/>
+                      <text x="200" y="60" text-anchor="middle" fill="#fff" font-size="11.5" font-weight="800" font-family="system-ui,sans-serif">TRÁNH MẤT ĐIỂM OAN</text>
+                      <text x="200" y="114" text-anchor="middle" fill="#fef08a" font-size="22" font-weight="900" font-family="system-ui,sans-serif">BẪY THƯỜNG GẶP</text>
+                      <text x="200" y="144" text-anchor="middle" fill="#ffedd5" font-size="13" font-weight="600" font-family="system-ui,sans-serif">Tổng hợp lỗi hay nhầm &amp; Mẹo nhớ nhanh</text>
+                      <rect x="135" y="162" width="130" height="24" rx="12" fill="rgba(255,255,255,0.2)"/>
+                      <text x="200" y="178" text-anchor="middle" fill="#fff" font-size="11.5" font-weight="700" font-family="system-ui,sans-serif">6 mục</text>
+                    </svg>
+                  </div>
+                  <div class="folder-label-row"><div class="folder-label-left"><span>Chuyên mục Bẫy thường gặp &amp; Mẹo nhớ nhanh</span></div><span class="folder-count-pill">6 mục</span></div>
+                </label>
+
+                <label for="fot-dungsai" class="folder-card fc-purple">
+                  <div class="folder-cover">
+                    <svg viewBox="0 0 400 225" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">
+                      <defs><linearGradient id="gotc" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#3b0764"/><stop offset="100%" stop-color="#7c3aed"/></linearGradient></defs>
+                      <rect width="400" height="225" fill="url(#gotc)"/>
+                      <rect x="24" y="24" width="352" height="177" rx="14" fill="rgba(255,255,255,0.08)" stroke="rgba(255,255,255,0.3)" stroke-width="1.5"/>
+                      <rect x="55" y="42" width="290" height="28" rx="14" fill="#9333ea"/>
+                      <text x="200" y="60" text-anchor="middle" fill="#fff" font-size="11.5" font-weight="800" font-family="system-ui,sans-serif">THANG LŨY TIẾN 0,1 - 0,25 - 0,5 - 1,0Đ</text>
+                      <text x="200" y="114" text-anchor="middle" fill="#f0abfc" font-size="22" font-weight="900" font-family="system-ui,sans-serif">LUYỆN ĐÚNG / SAI 4 Ý</text>
+                      <text x="200" y="144" text-anchor="middle" fill="#f3e8ff" font-size="13" font-weight="600" font-family="system-ui,sans-serif">Dạng câu hỏi phân hóa điểm cao nhất</text>
+                      <rect x="135" y="162" width="130" height="24" rx="12" fill="rgba(255,255,255,0.2)"/>
+                      <text x="200" y="178" text-anchor="middle" fill="#fff" font-size="11.5" font-weight="700" font-family="system-ui,sans-serif">6 bộ</text>
+                    </svg>
+                  </div>
+                  <div class="folder-label-row"><div class="folder-label-left"><span>Luyện dạng Đúng/Sai 4 ý (a, b, c, d) chuẩn Bộ</span></div><span class="folder-count-pill">6 bộ</span></div>
+                </label>
+              </div>
+            </div>
+
+            <div class="ex-panel ex-fot-mucdo">
+              <div class="level2-topbar"><label for="fot-root" class="back-folder-btn">&larr; Quay lại thư mục</label><span style="font-size:14px;font-weight:700;color:#475569;">6 gói</span></div>
+              <h2 class="panel-title">PHÂN LOẠI NHẬN BIẾT – THÔNG HIỂU – VẬN DỤNG</h2>
+              <div class="lesson-tile-grid">
+                <a href="#" class="lesson-tile tile-c0"><div class="tile-icon-box">🤖</div><div class="tile-title">Gói 1. Chuyên đề Trí tuệ nhân tạo (AI) – 3 mức độ</div></a>
+                <a href="#" class="lesson-tile tile-c1"><div class="tile-icon-box">🌐</div><div class="tile-title">Gói 2. Chuyên đề Mạng máy tính &amp; Giao thức TCP/IP</div></a>
+                <a href="#" class="lesson-tile tile-c2"><div class="tile-icon-box">🛡️</div><div class="tile-title">Gói 3. Chuyên đề Đạo đức, pháp luật &amp; Văn hóa số</div></a>
+                <a href="#" class="lesson-tile tile-c3"><div class="tile-icon-box">🏷️</div><div class="tile-title">Gói 4. Chuyên đề Tạo trang web HTML5 &amp; CSS</div></a>
+                <a href="#" class="lesson-tile tile-c4"><div class="tile-icon-box">🖥️</div><div class="tile-title">Gói 5. Chuyên đề Thiết kế Website &amp; Bố cục (ICT)</div></a>
+                <a href="#" class="lesson-tile tile-c5"><div class="tile-icon-box">🌐</div><div class="tile-title">Gói 6. Chuyên đề Thực hành Đa phương tiện &amp; Quản trị Web (ICT)</div></a>
+              </div>
+            </div>
+
+            <div class="ex-panel ex-fot-bay">
+              <div class="level2-topbar"><label for="fot-root" class="back-folder-btn">&larr; Quay lại thư mục</label><span style="font-size:14px;font-weight:700;color:#475569;">6 mục</span></div>
+              <h2 class="panel-title">BẪY THƯỜNG GẶP &amp; MẸO NHỚ NHANH</h2>
+              <div class="lesson-tile-grid">
+                <a href="#" class="lesson-tile tile-c0"><div class="tile-icon-box">⚠️</div><div class="tile-title">Bẫy 1. Nhầm href (thẻ a) và src (thẻ img, iframe)</div></a>
+                <a href="#" class="lesson-tile tile-c1"><div class="tile-icon-box">📐</div><div class="tile-title">Bẫy 2. Nhầm gộp cột colspan và gộp hàng rowspan</div></a>
+                <a href="#" class="lesson-tile tile-c2"><div class="tile-icon-box">🎯</div><div class="tile-title">Bẫy 3. Sai độ ưu tiên bộ chọn CSS (#id &gt; .class &gt; thẻ)</div></a>
+                <a href="#" class="lesson-tile tile-c3"><div class="tile-icon-box">📦</div><div class="tile-title">Bẫy 4. Nhầm vùng đệm padding và lề ngoài margin</div></a>
+                <a href="#" class="lesson-tile tile-c4"><div class="tile-icon-box">🔀</div><div class="tile-title">Bẫy 5. Nhầm Hub, Switch (MAC) và Router (IP)</div></a>
+                <a href="#" class="lesson-tile tile-c5"><div class="tile-icon-box">🤖</div><div class="tile-title">Bẫy 6. Nhầm AI hẹp (ANI) với AI tổng quát (AGI)</div></a>
+              </div>
+            </div>
+
+            <div class="ex-panel ex-fot-dungsai">
+              <div class="level2-topbar"><label for="fot-root" class="back-folder-btn">&larr; Quay lại thư mục</label><span style="font-size:14px;font-weight:700;color:#475569;">6 bộ</span></div>
+              <h2 class="panel-title">LUYỆN DẠNG ĐÚNG/SAI 4 Ý (a, b, c, d) CHUẨN BỘ</h2>
+              <div class="lesson-tile-grid">
+                <a href="#" class="lesson-tile tile-c0"><div class="tile-icon-box">✅</div><div class="tile-title">Bộ Đúng/Sai 1. Trí tuệ nhân tạo &amp; Đạo đức số</div></a>
+                <a href="#" class="lesson-tile tile-c1"><div class="tile-icon-box">📡</div><div class="tile-title">Bộ Đúng/Sai 2. Mô hình mạng LAN, thiết bị &amp; IP</div></a>
+                <a href="#" class="lesson-tile tile-c2"><div class="tile-icon-box">💻</div><div class="tile-title">Bộ Đúng/Sai 3. Đọc hiểu mã HTML5 &amp; Biểu mẫu</div></a>
+                <a href="#" class="lesson-tile tile-c3"><div class="tile-icon-box">🎨</div><div class="tile-title">Bộ Đúng/Sai 4. Đọc hiểu quy tắc CSS &amp; Box Model</div></a>
+                <a href="#" class="lesson-tile tile-c4"><div class="tile-icon-box">🌐</div><div class="tile-title">Bộ Đúng/Sai 5. Thiết kế Website &amp; Bố cục (ICT)</div></a>
+                <a href="#" class="lesson-tile tile-c5"><div class="tile-icon-box">📱</div><div class="tile-title">Bộ Đúng/Sai 6. Đa phương tiện &amp; Xuất bản Web (ICT)</div></a>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- PHÂN KHU 4: ĐỀ THI THỬ TỐT NGHIỆP (Tự động vẽ từ dữ liệu ở cuối file) -->
+        <section id="view-thithu" class="tab-view">
+          <div id="mount-thithu" class="panel-white">
+            <input type="radio" name="nav-ftt" id="ftt-root" class="sr-radio" checked />
+            <input type="radio" name="nav-ftt" id="ftt-bo" class="sr-radio" />
+            <input type="radio" name="nav-ftt" id="ftt-ict" class="sr-radio" />
+
+            <div class="ex-panel ex-ftt-root">
+              <h2 class="panel-title">ĐỀ THI THỬ TỐT NGHIỆP THPT</h2>
+              <p class="panel-sub">Cấu trúc chuẩn Bộ GD&amp;ĐT (50 phút): Phần I (24 câu = 6,0đ) + Phần II (4 câu Đúng/Sai = 4,0đ, điểm lũy tiến 0,1 – 0,25 – 0,5 – 1,0đ).</p>
+              <div class="folder-grid">
+                <label for="ftt-bo" class="folder-card fc-red">
+                  <div class="folder-cover">
+                    <svg viewBox="0 0 400 225" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">
+                      <defs><linearGradient id="gtta" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#7f1d1d"/><stop offset="100%" stop-color="#dc2626"/></linearGradient></defs>
+                      <rect width="400" height="225" fill="url(#gtta)"/>
+                      <rect x="24" y="24" width="352" height="177" rx="14" fill="rgba(255,255,255,0.08)" stroke="rgba(255,255,255,0.3)" stroke-width="1.5"/>
+                      <rect x="55" y="42" width="290" height="28" rx="14" fill="#1d4ed8"/>
+                      <text x="200" y="60" text-anchor="middle" fill="#fff" font-size="11.5" font-weight="800" font-family="system-ui,sans-serif">50 PHÚT • THANG ĐIỂM 10</text>
+                      <text x="200" y="114" text-anchor="middle" fill="#ffeb3b" font-size="22" font-weight="900" font-family="system-ui,sans-serif">ĐỀ CHUẨN BỘ GD&amp;ĐT</text>
+                      <text x="200" y="144" text-anchor="middle" fill="#fee2e2" font-size="13" font-weight="600" font-family="system-ui,sans-serif">SGK Kết nối tri thức • GDPT 2018</text>
+                      <rect x="135" y="162" width="130" height="24" rx="12" fill="rgba(255,255,255,0.2)"/>
+                      <text x="200" y="178" text-anchor="middle" fill="#fff" font-size="11.5" font-weight="700" font-family="system-ui,sans-serif">6 đề</text>
+                    </svg>
+                  </div>
+                  <div class="folder-label-row"><div class="folder-label-left"><span>Bộ đề thi thử chuẩn Bộ GD&amp;ĐT (50 phút)</span></div><span class="folder-count-pill">6 đề</span></div>
+                </label>
+
+                <label for="ftt-ict" class="folder-card fc-teal">
+                  <div class="folder-cover">
+                    <svg viewBox="0 0 400 225" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">
+                      <defs><linearGradient id="gttc" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#134e4a"/><stop offset="100%" stop-color="#0d9488"/></linearGradient></defs>
+                      <rect width="400" height="225" fill="url(#gttc)"/>
+                      <rect x="24" y="24" width="352" height="177" rx="14" fill="rgba(255,255,255,0.08)" stroke="rgba(255,255,255,0.3)" stroke-width="1.5"/>
+                      <rect x="55" y="42" width="290" height="28" rx="14" fill="#0f766e"/>
+                      <text x="200" y="60" text-anchor="middle" fill="#fff" font-size="11.5" font-weight="800" font-family="system-ui,sans-serif">TIN HỌC ỨNG DỤNG</text>
+                      <text x="200" y="114" text-anchor="middle" fill="#fef08a" font-size="22" font-weight="900" font-family="system-ui,sans-serif">ĐỀ THI THỬ BAN ICT</text>
+                      <text x="200" y="144" text-anchor="middle" fill="#ccfbf1" font-size="13" font-weight="600" font-family="system-ui,sans-serif">SGK Kết nối tri thức • GDPT 2018</text>
+                      <rect x="135" y="162" width="130" height="24" rx="12" fill="rgba(255,255,255,0.2)"/>
+                      <text x="200" y="178" text-anchor="middle" fill="#fff" font-size="11.5" font-weight="700" font-family="system-ui,sans-serif">4 đề</text>
+                    </svg>
+                  </div>
+                  <div class="folder-label-row"><div class="folder-label-left"><span>Đề thi thử Định hướng ICT</span></div><span class="folder-count-pill">4 đề</span></div>
+                </label>
+              </div>
+            </div>
+
+            <div class="ex-panel ex-ftt-bo">
+              <div class="level2-topbar"><label for="ftt-root" class="back-folder-btn">&larr; Quay lại thư mục</label><span style="font-size:14px;font-weight:700;color:#475569;">6 đề</span></div>
+              <h2 class="panel-title">BỘ ĐỀ THI THỬ CHUẨN BỘ GD&amp;ĐT (50 PHÚT)</h2>
+              <div class="lesson-tile-grid">
+                <a href="#" class="lesson-tile tile-c0"><div class="tile-icon-box">🔥</div><div class="tile-title">Đề thi thử số 01 – Chuẩn cấu trúc minh họa Bộ GD&amp;ĐT</div></a>
+                <a href="#" class="lesson-tile tile-c1"><div class="tile-icon-box">📝</div><div class="tile-title">Đề thi thử số 02 – Tổng hợp kiến thức HK1 &amp; HK2</div></a>
+                <a href="#" class="lesson-tile tile-c2"><div class="tile-icon-box">🎯</div><div class="tile-title">Đề thi thử số 03 – Trọng tâm HTML/CSS &amp; Mạng</div></a>
+                <a href="#" class="lesson-tile tile-c3"><div class="tile-icon-box">⭐</div><div class="tile-title">Đề thi thử số 04 – Tăng cường Đúng/Sai thực tế</div></a>
+                <a href="#" class="lesson-tile tile-c4"><div class="tile-icon-box">🏛️</div><div class="tile-title">Đề thi thử số 05 – Đề tham khảo Sở GD&amp;ĐT Quảng Trị</div></a>
+                <a href="#" class="lesson-tile tile-c5"><div class="tile-icon-box">🏆</div><div class="tile-title">Đề thi thử số 06 – Đề tổng ôn nước rút trước kỳ thi</div></a>
+              </div>
+            </div>
+
+            <div class="ex-panel ex-ftt-ict">
+              <div class="level2-topbar"><label for="ftt-root" class="back-folder-btn">&larr; Quay lại thư mục</label><span style="font-size:14px;font-weight:700;color:#475569;">4 đề</span></div>
+              <h2 class="panel-title">ĐỀ THI THỬ ĐỊNH HƯỚNG ICT</h2>
+              <div class="lesson-tile-grid">
+                <a href="#" class="lesson-tile tile-c0"><div class="tile-icon-box">🌐</div><div class="tile-title">Đề ICT số 01 – Trọng tâm Thiết kế Website &amp; HTML/CSS</div></a>
+                <a href="#" class="lesson-tile tile-c1"><div class="tile-icon-box">📱</div><div class="tile-title">Đề ICT số 02 – Trọng tâm Bố cục trang web &amp; Biểu mẫu</div></a>
+                <a href="#" class="lesson-tile tile-c2"><div class="tile-icon-box">🎨</div><div class="tile-title">Đề ICT số 03 – Trọng tâm Đa phương tiện &amp; Quản trị web</div></a>
+                <a href="#" class="lesson-tile tile-c3"><div class="tile-icon-box">🚀</div><div class="tile-title">Đề ICT số 04 – Đề tổng hợp chuẩn ban ICT</div></a>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- PHÂN KHU 5: PHÒNG LAB CODE HTML/CSS -->
+        <section id="view-lab" class="tab-view">
+          <div class="panel-white lab-workspace">
+            <h2 class="panel-title">PHÒNG LAB CODE HTML/CSS</h2>
+            <p class="panel-sub">Trình soạn thảo trực tiếp trên web, chia đôi màn hình (hoặc chuyển tab gọn trên điện thoại) kèm chấm cấu trúc thẻ tự động.</p>
+
+            <div class="chip-row">
+              <button type="button" class="chip-btn active" data-lab="timetable">1. Thời khóa biểu</button>
+              <button type="button" class="chip-btn" data-lab="clubform">2. Biểu mẫu CLB</button>
+              <button type="button" class="chip-btn" data-lab="profile">3. Thẻ hồ sơ CSS</button>
+              <button type="button" id="labRunBtn" class="btn btn-blue btn-sm" style="margin-left:auto;">Chạy code</button>
+              <button type="button" id="labGradeBtn" class="btn btn-red btn-sm">Chấm tự động</button>
+            </div>
+
+            <div id="labTaskNote" class="lab-task-note">
+              <strong>Bài 1 (Bảng thời khóa biểu):</strong> Cần có <code>&lt;table&gt;</code>, ít nhất 2 hàng <code>&lt;tr&gt;</code>, ô tiêu đề <code>&lt;th&gt;</code>, ô dữ liệu <code>&lt;td&gt;</code> và thuộc tính <code>colspan</code>.
+            </div>
+            <div id="labGradeBox" class="lab-grade-box hidden"></div>
+
+            <input type="radio" name="lab-mobile" id="lab-tab-code" class="sr-radio" checked />
+            <input type="radio" name="lab-mobile" id="lab-tab-prev" class="sr-radio" />
+            <div class="lab-mobile-switch">
+              <label for="lab-tab-code" class="lab-switch-btn">Viết Code</label>
+              <label for="lab-tab-prev" class="lab-switch-btn" id="labPrevTabLabel">Xem Kết Quả</label>
+            </div>
+
+            <div class="lab-split">
+              <div class="lab-pane lab-pane-code">
+                <div class="lab-pane-head">
+                  <span>index.html</span>
+                  <button type="button" id="labResetBtn" style="background:none;border:none;color:#ffeb3b;font-weight:700;font-size:14px;">Nạp lại mẫu</button>
+                </div>
+                <textarea id="labEditor" class="lab-editor" spellcheck="false">&lt;!DOCTYPE html&gt;
+&lt;html lang="vi"&gt;
+&lt;head&gt;
+  &lt;style&gt;
+    body { font-family: Arial, sans-serif; padding: 12px; }
+    table { border-collapse: collapse; width: 100%; }
+    th, td { border: 1px solid #004a99; padding: 8px; text-align: center; }
+    th { background: #004a99; color: #fff; }
+  &lt;/style&gt;
+&lt;/head&gt;
+&lt;body&gt;
+  &lt;h3&gt;Thời khóa biểu ôn thi Tin 12&lt;/h3&gt;
+  &lt;table&gt;
+    &lt;tr&gt;
+      &lt;th colspan="3"&gt;LỊCH ÔN THI TỐT NGHIỆP&lt;/th&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;th&gt;Tiết&lt;/th&gt;&lt;th&gt;Thứ 2&lt;/th&gt;&lt;th&gt;Thứ 4&lt;/th&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Tiết 1&lt;/td&gt;&lt;td&gt;HTML &amp;amp; CSS&lt;/td&gt;&lt;td&gt;Mạng máy tính&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/table&gt;
+&lt;/body&gt;
+&lt;/html&gt;</textarea>
+              </div>
+              <div class="lab-pane lab-pane-prev">
+                <div class="lab-pane-head light">
+                  <span>KẾT QUẢ HIỂN THỊ TRỰC TIẾP</span>
+                  <span style="color:#15803d;">● Live</span>
+                </div>
+                <iframe id="labPreview" class="lab-preview" title="Kết quả HTML/CSS" sandbox="allow-scripts"></iframe>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- PHÂN KHU 6: SỔ TAY THẺ HTML & THUẬT NGỮ -->
+        <section id="view-sotay" class="tab-view">
+          <div class="panel-white hb-workspace">
+            <h2 class="panel-title">SỔ TAY THẺ HTML &amp; THUẬT NGỮ</h2>
+            <p class="panel-sub">Từ điển bỏ túi siêu tốc tra cứu cú pháp HTML5, CSS và khái niệm AI, Mạng máy tính.</p>
+
+            <div class="pill-search">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+              <input type="text" class="js-hb-search" placeholder="Nhập thẻ hoặc thuật ngữ (table, form, Switch, AI...)" />
+            </div>
+
+            <input type="radio" name="hb-cat" id="hb-all" class="sr-radio" checked />
+            <input type="radio" name="hb-cat" id="hb-html" class="sr-radio" />
+            <input type="radio" name="hb-cat" id="hb-css" class="sr-radio" />
+            <input type="radio" name="hb-cat" id="hb-ainet" class="sr-radio" />
+
+            <div class="chip-row hb-filter-row" style="justify-content:center;">
+              <label for="hb-all" class="chip-btn">Tất cả</label>
+              <label for="hb-html" class="chip-btn">HTML</label>
+              <label for="hb-css" class="chip-btn">CSS</label>
+              <label for="hb-ainet" class="chip-btn">AI &amp; Mạng</label>
+            </div>
+
+            <div class="hb-grid">
+              <div class="hb-card js-hb-item" data-cat="html">
+                <div class="hb-head"><span class="hb-tag">&lt;table&gt; / &lt;tr&gt; / &lt;th&gt; / &lt;td&gt;</span><button type="button" class="btn btn-blue btn-sm js-copy-btn">Sao chép</button></div>
+                <div class="hb-syn">&lt;table&gt;&lt;tr&gt;&lt;th colspan="2"&gt;Tiêu đề&lt;/th&gt;&lt;/tr&gt;&lt;/table&gt;</div>
+                <div style="font-size:15px;color:#334155;">Tạo bảng dữ liệu: <code>tr</code> là hàng, <code>th</code> là ô tiêu đề, <code>td</code> là ô dữ liệu, <code>colspan</code> gộp cột, <code>rowspan</code> gộp hàng.</div>
+                <div class="hb-ex js-copy-src">&lt;table border="1"&gt;&lt;tr&gt;&lt;th&gt;Môn&lt;/th&gt;&lt;td&gt;Tin học 12&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;</div>
+              </div>
+
+              <div class="hb-card js-hb-item" data-cat="html">
+                <div class="hb-head"><span class="hb-tag">&lt;form&gt; &amp; &lt;input&gt;</span><button type="button" class="btn btn-blue btn-sm js-copy-btn">Sao chép</button></div>
+                <div class="hb-syn">&lt;input type="text|radio|checkbox|submit"&gt;</div>
+                <div style="font-size:15px;color:#334155;">Tạo biểu mẫu thu thập dữ liệu. Các nút <code>radio</code> cùng nhóm phải có chung thuộc tính <code>name</code>.</div>
+                <div class="hb-ex js-copy-src">&lt;form&gt;&lt;input type="radio" name="lop" value="12A"&gt; Lớp 12A&lt;/form&gt;</div>
+              </div>
+
+              <div class="hb-card js-hb-item" data-cat="html">
+                <div class="hb-head"><span class="hb-tag">&lt;a&gt; &amp; &lt;img&gt; &amp; &lt;iframe&gt;</span><button type="button" class="btn btn-blue btn-sm js-copy-btn">Sao chép</button></div>
+                <div class="hb-syn">&lt;a href="..."&gt; | &lt;img src="..."&gt; | &lt;iframe src="..."&gt;</div>
+                <div style="font-size:15px;color:#334155;">Thẻ liên kết <code>&lt;a&gt;</code> dùng <strong>href</strong>; thẻ ảnh <code>&lt;img&gt;</code> và khung nhúng <code>&lt;iframe&gt;</code> dùng <strong>src</strong>.</div>
+                <div class="hb-ex js-copy-src">&lt;iframe src="bando.html" width="360" height="220"&gt;&lt;/iframe&gt;</div>
+              </div>
+
+              <div class="hb-card js-hb-item" data-cat="css">
+                <div class="hb-head"><span class="hb-tag">Bộ chọn CSS &amp; Độ ưu tiên</span><button type="button" class="btn btn-blue btn-sm js-copy-btn">Sao chép</button></div>
+                <div class="hb-syn">!important &gt; Inline &gt; #id &gt; .class &gt; thẻ</div>
+                <div style="font-size:15px;color:#334155;">Bộ chọn ID dùng dấu <code>#</code>, bộ chọn lớp dùng dấu <code>.</code>, kết hợp quy tắc xếp tầng ưu tiên từ cao xuống thấp.</div>
+                <div class="hb-ex js-copy-src">#tieude { color: #d32f2f; font-weight: bold; }</div>
+              </div>
+
+              <div class="hb-card js-hb-item" data-cat="css">
+                <div class="hb-head"><span class="hb-tag">CSS Box Model</span><button type="button" class="btn btn-blue btn-sm js-copy-btn">Sao chép</button></div>
+                <div class="hb-syn">Content → Padding → Border → Margin</div>
+                <div style="font-size:15px;color:#334155;"><strong>padding</strong> là vùng đệm bên trong đường viền; <strong>margin</strong> là khoảng cách lề bên ngoài đường viền.</div>
+                <div class="hb-ex js-copy-src">.box { padding: 12px; border: 1px solid #004a99; margin: 10px; }</div>
+              </div>
+
+              <div class="hb-card js-hb-item" data-cat="ai-net">
+                <div class="hb-head"><span class="hb-tag">Hub vs Switch vs Router</span><button type="button" class="btn btn-blue btn-sm js-copy-btn">Sao chép</button></div>
+                <div class="hb-syn">Hub (Broadcast) | Switch (MAC) | Router (IP)</div>
+                <div style="font-size:15px;color:#334155;">Hub phát ra mọi cổng trong LAN; Switch chuyển đúng cổng đích nhờ địa chỉ MAC; Router định tuyến giữa các mạng khác nhau (LAN ra Internet) bằng địa chỉ IP.</div>
+                <div class="hb-ex js-copy-src">Kết nối mạng LAN ra Internet = Router (Bộ định tuyến)</div>
+              </div>
+
+              <div class="hb-card js-hb-item" data-cat="ai-net">
+                <div class="hb-head"><span class="hb-tag">LAN vs WAN &amp; TCP/IP</span><button type="button" class="btn btn-blue btn-sm js-copy-btn">Sao chép</button></div>
+                <div class="hb-syn">IPv4 (32 bit) / IPv6 (128 bit)</div>
+                <div style="font-size:15px;color:#334155;">LAN là mạng cục bộ phạm vi hẹp (phòng máy, trường học); WAN là mạng diện rộng (Internet). IP định tuyến gói tin, TCP đảm bảo truyền tin cậy.</div>
+                <div class="hb-ex js-copy-src">Ví dụ địa chỉ IPv4: 192.168.1.1</div>
+              </div>
+
+              <div class="hb-card js-hb-item" data-cat="ai-net">
+                <div class="hb-head"><span class="hb-tag">Học máy (ML) vs Học sâu (DL)</span><button type="button" class="btn btn-blue btn-sm js-copy-btn">Sao chép</button></div>
+                <div class="hb-syn">AI ⊃ Machine Learning ⊃ Deep Learning</div>
+                <div style="font-size:15px;color:#334155;">Học máy giúp máy tính tự học từ dữ liệu; Học sâu là nhánh nâng cao của Học máy sử dụng mạng nơ-ron nhiều lớp để xử lý ảnh, giọng nói, ngôn ngữ.</div>
+                <div class="hb-ex js-copy-src">AI hẹp (ANI) = làm tốt 1 nhiệm vụ cụ thể (nhận diện khuôn mặt)</div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- PHÂN KHU 7: GIA SƯ AI & LỘ TRÌNH CÁ NHÂN -->
+        <section id="view-giasu" class="tab-view">
+          <div class="panel-white">
+            <h2 class="panel-title">GIA SƯ AI &amp; LỘ TRÌNH CÁ NHÂN</h2>
+            <p class="panel-sub">Dán đoạn code HTML/CSS bị lỗi hoặc câu hỏi Đúng/Sai chưa hiểu vào bên dưới để Gia sư AI gợi mở từng bước.</p>
+
+            <div class="chip-row" style="justify-content:center;">
+              <button type="button" class="chip-btn" data-ai-q="Em viết <a src='bai1.html'>Bài 1</a> và <img href='logo.png'> bị lỗi gì ạ?">Bắt lỗi code HTML</button>
+              <button type="button" class="chip-btn" data-ai-q="Giải thích câu Đúng/Sai: Switch dùng địa chỉ IP để định tuyến ra Internet.">Giải thích Đúng/Sai</button>
+              <button type="button" class="chip-btn" data-ai-q="So sánh nhanh Hub, Switch và Router để không nhầm lẫn khi thi.">So sánh Hub/Switch/Router</button>
+              <button type="button" class="chip-btn" data-ai-q="Nêu trọng tâm ôn thi Tốt nghiệp Tin học 12 định hướng ICT.">Trọng tâm thi ICT</button>
+            </div>
+
+            <div id="aiChatBox" class="chat-box">
+              <div class="chat-bubble bot">
+                <strong>Gia sư AI Tin học 12:</strong> Chào em! Em hãy bấm một câu hỏi mẫu ở trên hoặc dán đoạn code HTML/CSS, câu hỏi Đúng/Sai cần giải thích vào ô bên dưới nhé.
+              </div>
+            </div>
+
+            <div class="chat-form-row">
+              <textarea id="aiInput" class="chat-input" rows="2" placeholder="Nhập câu hỏi hoặc dán code HTML/CSS tại đây..."></textarea>
+              <button type="button" id="aiSendBtn" class="btn btn-blue" style="min-width:86px;">Gửi</button>
+            </div>
+
+            <div class="lab-task-note" style="margin-top:16px; margin-bottom:0;">
+              <strong style="color:#d32f2f; display:block; margin-bottom:6px;">GỢI Ý LỘ TRÌNH ÔN TẬP CÁ NHÂN HÓA:</strong>
+              • <strong>Giai đoạn 1:</strong> Hoàn thành các bài cốt lõi ở mục <em>Tin học 12</em> (Phần chung và Định hướng ICT).<br/>
+              • <strong>Giai đoạn 2:</strong> Luyện gõ bảng, biểu mẫu, CSS tại <em>Phòng Lab Code</em> và tra cứu nhanh ở <em>Sổ tay HTML</em>.<br/>
+              • <strong>Giai đoạn 3:</strong> Củng cố mục <em>Bẫy thường gặp</em>, luyện <em>Đúng/Sai 4 ý</em> và bấm giờ 50 phút tại <em>Thi thử TN</em>.
+            </div>
+          </div>
+        </section>
+
+        <!-- PHÂN KHU 8: LIÊN HỆ & GÓC CHIA SẺ (Tự động vẽ từ dữ liệu ở cuối file) -->
+        <section id="view-lienhe" class="tab-view">
+          <div id="mount-lienhe" class="panel-white">
+            <input type="radio" name="nav-flh" id="flh-root" class="sr-radio" checked />
+            <input type="radio" name="nav-flh" id="flh-thacmac" class="sr-radio" />
+            <input type="radio" name="nav-flh" id="flh-tailieu" class="sr-radio" />
+            <input type="radio" name="nav-flh" id="flh-huongdan" class="sr-radio" />
+            <input type="radio" name="nav-flh" id="flh-chiase" class="sr-radio" />
+
+            <div class="ex-panel ex-flh-root">
+              <h2 class="panel-title">LIÊN HỆ &amp; GÓC CHIA SẺ</h2>
+              <p class="panel-sub">Chọn chuyên mục bên dưới để gửi thắc mắc cho giáo viên, tải tài liệu PDF ôn thi, xem hướng dẫn hoặc khám phá góc chia sẻ học đường.</p>
+              <div class="folder-grid">
+                <label for="flh-thacmac" class="folder-card fc-red">
+                  <div class="folder-cover">
+                    <svg viewBox="0 0 400 225" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">
+                      <defs><linearGradient id="glha" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#7f1d1d"/><stop offset="100%" stop-color="#dc2626"/></linearGradient></defs>
+                      <rect width="400" height="225" fill="url(#glha)"/>
+                      <rect x="24" y="24" width="352" height="177" rx="14" fill="rgba(255,255,255,0.08)" stroke="rgba(255,255,255,0.3)" stroke-width="1.5"/>
+                      <rect x="55" y="42" width="290" height="28" rx="14" fill="#1d4ed8"/>
+                      <text x="200" y="60" text-anchor="middle" fill="#fff" font-size="11.5" font-weight="800" font-family="system-ui,sans-serif">HỖ TRỢ HỌC SINH 24/7</text>
+                      <text x="200" y="114" text-anchor="middle" fill="#ffeb3b" font-size="22" font-weight="900" font-family="system-ui,sans-serif">GỬI THẮC MẮC &amp; GÓP Ý</text>
+                      <text x="200" y="144" text-anchor="middle" fill="#fee2e2" font-size="13" font-weight="600" font-family="system-ui,sans-serif">Gửi câu hỏi khó trực tiếp tới cô Lê Huyền Sinh</text>
+                      <rect x="135" y="162" width="130" height="24" rx="12" fill="rgba(255,255,255,0.2)"/>
+                      <text x="200" y="178" text-anchor="middle" fill="#fff" font-size="11.5" font-weight="700" font-family="system-ui,sans-serif">3 mục</text>
+                    </svg>
+                  </div>
+                  <div class="folder-label-row"><div class="folder-label-left"><span>Kênh gửi thắc mắc &amp; Góp ý</span></div><span class="folder-count-pill">3 mục</span></div>
+                </label>
+
+                <label for="flh-tailieu" class="folder-card fc-blue">
+                  <div class="folder-cover">
+                    <svg viewBox="0 0 400 225" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">
+                      <defs><linearGradient id="glhb" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#0f172a"/><stop offset="100%" stop-color="#1d4ed8"/></linearGradient></defs>
+                      <rect width="400" height="225" fill="url(#glhb)"/>
+                      <rect x="24" y="24" width="352" height="177" rx="14" fill="rgba(255,255,255,0.08)" stroke="rgba(255,255,255,0.3)" stroke-width="1.5"/>
+                      <rect x="55" y="42" width="290" height="28" rx="14" fill="#0284c7"/>
+                      <text x="200" y="60" text-anchor="middle" fill="#fff" font-size="11.5" font-weight="800" font-family="system-ui,sans-serif">BẢN IN A4 RÕ NÉT</text>
+                      <text x="200" y="114" text-anchor="middle" fill="#38bdf8" font-size="22" font-weight="900" font-family="system-ui,sans-serif">TÀI LIỆU PDF ÔN THI</text>
+                      <text x="200" y="144" text-anchor="middle" fill="#e0f2fe" font-size="13" font-weight="600" font-family="system-ui,sans-serif">Tóm tắt HTML/CSS • Ma trận • Đề cương ICT</text>
+                      <rect x="135" y="162" width="130" height="24" rx="12" fill="rgba(255,255,255,0.2)"/>
+                      <text x="200" y="178" text-anchor="middle" fill="#fff" font-size="11.5" font-weight="700" font-family="system-ui,sans-serif">4 file</text>
+                    </svg>
+                  </div>
+                  <div class="folder-label-row"><div class="folder-label-left"><span>Tài liệu PDF ôn thi tải về</span></div><span class="folder-count-pill">4 file</span></div>
+                </label>
+
+                <label for="flh-huongdan" class="folder-card fc-green">
+                  <div class="folder-cover">
+                    <svg viewBox="0 0 400 225" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">
+                      <defs><linearGradient id="glhc" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#064e3b"/><stop offset="100%" stop-color="#15803d"/></linearGradient></defs>
+                      <rect width="400" height="225" fill="url(#glhc)"/>
+                      <rect x="24" y="24" width="352" height="177" rx="14" fill="rgba(255,255,255,0.08)" stroke="rgba(255,255,255,0.3)" stroke-width="1.5"/>
+                      <rect x="55" y="42" width="290" height="28" rx="14" fill="#059669"/>
+                      <text x="200" y="60" text-anchor="middle" fill="#fff" font-size="11.5" font-weight="800" font-family="system-ui,sans-serif">THAO TÁC NHANH GỌN</text>
+                      <text x="200" y="114" text-anchor="middle" fill="#fde047" font-size="22" font-weight="900" font-family="system-ui,sans-serif">HƯỚNG DẪN SỬ DỤNG</text>
+                      <text x="200" y="144" text-anchor="middle" fill="#d1fae5" font-size="13" font-weight="600" font-family="system-ui,sans-serif">Học trên điện thoại • Phòng Lab • Tính điểm</text>
+                      <rect x="135" y="162" width="130" height="24" rx="12" fill="rgba(255,255,255,0.2)"/>
+                      <text x="200" y="178" text-anchor="middle" fill="#fff" font-size="11.5" font-weight="700" font-family="system-ui,sans-serif">3 mục</text>
+                    </svg>
+                  </div>
+                  <div class="folder-label-row"><div class="folder-label-left"><span>Hướng dẫn sử dụng Website</span></div><span class="folder-count-pill">3 mục</span></div>
+                </label>
+
+                <label for="flh-chiase" class="folder-card fc-purple">
+                  <div class="folder-cover">
+                    <svg viewBox="0 0 400 225" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">
+                      <defs><linearGradient id="glhd" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#3b0764"/><stop offset="100%" stop-color="#7c3aed"/></linearGradient></defs>
+                      <rect width="400" height="225" fill="url(#glhd)"/>
+                      <rect x="24" y="24" width="352" height="177" rx="14" fill="rgba(255,255,255,0.08)" stroke="rgba(255,255,255,0.3)" stroke-width="1.5"/>
+                      <rect x="55" y="42" width="290" height="28" rx="14" fill="#9333ea"/>
+                      <text x="200" y="60" text-anchor="middle" fill="#fff" font-size="11.5" font-weight="800" font-family="system-ui,sans-serif">THANH XUÂN LỚP 12</text>
+                      <text x="200" y="114" text-anchor="middle" fill="#f0abfc" font-size="22" font-weight="900" font-family="system-ui,sans-serif">GÓC CHIA SẺ &amp; KỶ NIỆM</text>
+                      <text x="200" y="144" text-anchor="middle" fill="#f3e8ff" font-size="13" font-weight="600" font-family="system-ui,sans-serif">Kinh nghiệm ôn thi • Thư viện ảnh học đường</text>
+                      <rect x="135" y="162" width="130" height="24" rx="12" fill="rgba(255,255,255,0.2)"/>
+                      <text x="200" y="178" text-anchor="middle" fill="#fff" font-size="11.5" font-weight="700" font-family="system-ui,sans-serif">3 mục</text>
+                    </svg>
+                  </div>
+                  <div class="folder-label-row"><div class="folder-label-left"><span>Góc chia sẻ &amp; Kỷ niệm học đường</span></div><span class="folder-count-pill">3 mục</span></div>
+                </label>
+              </div>
+            </div>
+
+            <div class="ex-panel ex-flh-thacmac">
+              <div class="level2-topbar"><label for="flh-root" class="back-folder-btn">&larr; Quay lại thư mục</label><span style="font-size:14px;font-weight:700;color:#475569;">3 mục</span></div>
+              <h2 class="panel-title">KÊNH GỬI THẮC MẮC &amp; GÓP Ý</h2>
+              <div class="lesson-tile-grid">
+                <a href="#" class="lesson-tile tile-c0"><div class="tile-icon-box">❓</div><div class="tile-title">Hỏi đáp bài tập khó môn Tin học 12</div></a>
+                <a href="#" class="lesson-tile tile-c1"><div class="tile-icon-box">💬</div><div class="tile-title">Góp ý cải thiện nội dung &amp; đề thi thử</div></a>
+                <a href="#" class="lesson-tile tile-c2"><div class="tile-icon-box">👩‍🏫</div><div class="tile-title">Thông tin liên hệ cô Lê Huyền Sinh</div></a>
+              </div>
+            </div>
+
+            <div class="ex-panel ex-flh-tailieu">
+              <div class="level2-topbar"><label for="flh-root" class="back-folder-btn">&larr; Quay lại thư mục</label><span style="font-size:14px;font-weight:700;color:#475569;">4 file</span></div>
+              <h2 class="panel-title">TÀI LIỆU PDF ÔN THI TẢI VỀ</h2>
+              <div class="lesson-tile-grid">
+                <a href="#" class="lesson-tile tile-c0"><div class="tile-icon-box">📄</div><div class="tile-title">Tờ tóm tắt toàn bộ thẻ HTML5 &amp; CSS (PDF A4)</div></a>
+                <a href="#" class="lesson-tile tile-c1"><div class="tile-icon-box">📊</div><div class="tile-title">Ma trận đề thi &amp; Quy tắc tính điểm Bộ GD&amp;ĐT</div></a>
+                <a href="#" class="lesson-tile tile-c2"><div class="tile-icon-box">📘</div><div class="tile-title">Đề cương ôn tập Phần chung (AI, Mạng, HTML/CSS)</div></a>
+                <a href="#" class="lesson-tile tile-c3"><div class="tile-icon-box">🌐</div><div class="tile-title">Đề cương ôn tập Định hướng ICT (Thiết kế Web)</div></a>
+              </div>
+            </div>
+
+            <div class="ex-panel ex-flh-huongdan">
+              <div class="level2-topbar"><label for="flh-root" class="back-folder-btn">&larr; Quay lại thư mục</label><span style="font-size:14px;font-weight:700;color:#475569;">3 mục</span></div>
+              <h2 class="panel-title">HƯỚNG DẪN SỬ DỤNG WEBSITE</h2>
+              <div class="lesson-tile-grid">
+                <a href="#" class="lesson-tile tile-c0"><div class="tile-icon-box">📱</div><div class="tile-title">Hướng dẫn ôn tập Tin học 12 hiệu quả trên điện thoại</div></a>
+                <a href="#" class="lesson-tile tile-c1"><div class="tile-icon-box">💻</div><div class="tile-title">Cách thực hành gõ HTML/CSS tại Phòng Lab Code</div></a>
+                <a href="#" class="lesson-tile tile-c2"><div class="tile-icon-box">🧮</div><div class="tile-title">Hướng dẫn cách tính điểm Đúng/Sai (0,1 – 0,25 – 0,5 – 1,0đ)</div></a>
+              </div>
+            </div>
+
+            <div class="ex-panel ex-flh-chiase">
+              <div class="level2-topbar"><label for="flh-root" class="back-folder-btn">&larr; Quay lại thư mục</label><span style="font-size:14px;font-weight:700;color:#475569;">3 mục</span></div>
+              <h2 class="panel-title">GÓC CHIA SẺ &amp; KỶ NIỆM HỌC ĐƯỜNG</h2>
+              <div class="lesson-tile-grid">
+                <a href="#" class="lesson-tile tile-c0"><div class="tile-icon-box">🌟</div><div class="tile-title">Chia sẻ kinh nghiệm đạt điểm 9+ môn Tin học</div></a>
+                <a href="#" class="lesson-tile tile-c1"><div class="tile-icon-box">💌</div><div class="tile-title">Góc cảm xúc thanh xuân &amp; Lời nhắn gửi lớp 12</div></a>
+                <a href="#" class="lesson-tile tile-c2"><div class="tile-icon-box">📸</div><div class="tile-title">Thư viện ảnh kỷ niệm học sinh lớp 12</div></a>
+              </div>
+            </div>
+          </div>
+        </section>
+
+      </div>
+    </main>
+
+    <!-- 5. CHÂN TRANG XANH LỤC BẢO ĐẬM -->
+    <footer class="site-footer">
+      <div class="container">
+        <div class="footer-grid">
+          <div>
+            <div class="footer-brand">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="#fbbf24">
+                <path d="M17 8C8 10 5.9 16.17 3.82 21.34L5.71 22l1-2.3A4.49 4.49 0 0 0 8 20C19 20 22 3 22 3c-1 2-8 2.25-13 3.25S2 11.5 2 13.5s1.75 3.75 1.75 3.75C7 8 17 8 17 8Z"/>
+              </svg>
+              <span>HÀNH TRÌNH SỐ</span>
+            </div>
+            <p class="footer-desc">
+              Nền tảng học tập và ôn thi Tốt nghiệp THPT môn Tin học 12 theo Chương trình GDPT 2018 (SGK Kết nối tri thức với cuộc sống), tích hợp Phòng Lab HTML/CSS, Sổ tay tra cứu và Gia sư AI.
+            </p>
+          </div>
+
+          <div>
+            <h3 class="footer-heading">NỘI DUNG ÔN THI</h3>
+            <ul class="footer-list">
+              <li><label for="tab-tinhoc12" class="footer-link-btn"><span class="arrow">&gt;</span> Tin học 12 - GDPT 2018</label></li>
+              <li><label for="tab-ontap" class="footer-link-btn"><span class="arrow">&gt;</span> Ôn tập chủ đề chuyên sâu</label></li>
+              <li><label for="tab-thithu" class="footer-link-btn"><span class="arrow">&gt;</span> Đề thi thử Tốt nghiệp</label></li>
+            </ul>
+          </div>
+
+          <div>
+            <h3 class="footer-heading">CÔNG CỤ HỌC TẬP</h3>
+            <ul class="footer-list">
+              <li><label for="tab-lab" class="footer-link-btn"><span class="arrow">&gt;</span> Phòng Lab Code HTML/CSS</label></li>
+              <li><label for="tab-sotay" class="footer-link-btn"><span class="arrow">&gt;</span> Sổ tay thẻ HTML &amp; Thuật ngữ</label></li>
+              <li><label for="tab-giasu" class="footer-link-btn"><span class="arrow">&gt;</span> Gia sư AI &amp; Lộ trình cá nhân</label></li>
+            </ul>
+          </div>
+
+          <div>
+            <h3 class="footer-heading">HỖ TRỢ HỌC SINH</h3>
+            <ul class="footer-list">
+              <li><label for="tab-lienhe" class="footer-link-btn"><span class="arrow">&gt;</span> Liên hệ &amp; Gửi thắc mắc</label></li>
+              <li><label for="tab-lienhe" class="footer-link-btn"><span class="arrow">&gt;</span> Tài liệu ôn thi tải về</label></li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="footer-copy-box">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="#fbbf24" style="margin-top:2px;">
+            <path d="M12 3 2 8l10 5 10-5-10-5Zm-7 7.18V17l7 3.5L19 17v-6.82l-7 3.5-7-3.5Z"/>
+          </svg>
+          <div>
+            <div style="font-weight:700;">© 2026 Bản quyền thuộc về Trường THPT Phan Đình Phùng - Quảng Trị</div>
+            <div style="color:#d1fae5;">Website học tập và giải trí của cô Lê Huyền Sinh.</div>
+          </div>
+        </div>
+      </div>
+    </footer>
+  </div>
+
+  <div id="toastBar" class="toast" role="status" aria-live="polite">Thông báo</div>
+
+  <!-- =========================================================================
+       ★★★ KHU VỰC CẬP NHẬT DỮ LIỆU & LINK FILE .HTML (CHỈ CẦN SỬA Ở ĐÂY!) ★★★
+       Cách cập nhật siêu dễ:
+       1. Thay nền xanh nhạt bằng ảnh: điền tên file vào anhNenBanner (VD: "nen-banner.jpg").
+       2. Gắn Logo & Ảnh học sinh: điền tên file vào logoTruong và anhHocSinh.
+       3. Gắn link file .html: sửa chỗ link: "" thành link: "thumuc/tenfile.html".
+       4. Thêm bài/đề mới: copy 1 dòng { title: "...", link: "...", icon: "..." }, dán xuống dưới!
+       ========================================================================= -->
+  <script>
+    // -------------------------------------------------------------------------
+    // A. CẤU HÌNH ẢNH BANNER (Để "" nếu chưa có ảnh)
+    // -------------------------------------------------------------------------
+    const CAU_HINH_BANNER = {
+      anhNenBanner: "santruong.png",    // Ví dụ: "nen-banner.jpg" hoặc "anh/nen-banner.png" (thay thế nền xanh nhạt)
+      doMoLopPhu: 0.6,    // Lớp phủ trắng nhẹ trên ảnh nền (từ 0 đến 0.8) giúp chữ luôn rõ nét (0 = không phủ)
+      logoTruong: "logo.png",      // Ví dụ: "logo.png"
+      anhHocSinh: "truong.png",      // Ví dụ: "truong.jpg" hoặc "anh-hoc-sinh.jpg"
+      anChuTrenAnh: true  // Đổi thành true nếu muốn ẩn dòng chữ "Ảnh học sinh ôn thi" khi đã có ảnh thật
+    };
+
+    // -------------------------------------------------------------------------
+    // B. DỮ LIỆU MỤC 1: TIN HỌC 12 (2 THƯ MỤC: PHẦN CHUNG & ĐỊNH HƯỚNG ICT)
+    // -------------------------------------------------------------------------
+    const tin12_PhanChung = [
+      { title: "Bài 1. Trí tuệ nhân tạo (AI) và ứng dụng đời sống", link: "", icon: "🤖" },
+      { title: "Bài 2. Thiết bị mạng thông dụng (Hub, Switch, Router)", link: "", icon: "🔌" },
+      { title: "Bài 3. Giao thức mạng TCP/IP và chia sẻ tài nguyên", link: "", icon: "📡" },
+      { title: "Bài 4. Giao tiếp và ứng xử nhân văn trên không gian mạng", link: "", icon: "🤝" },
+      { title: "Bài 5. Ngôn ngữ HTML5: Văn bản, Bảng, Liên kết, Biểu mẫu", link: "", icon: "📝" },
+      { title: "Bài 6. Định dạng trang web với CSS, Bộ chọn & Box Model", link: "", icon: "🎨" }
+    ];
+
+    const tin12_DinhHuongICT = [
+      { title: "Chủ đề ICT 1. Quy trình thiết kế và lập kế hoạch Website", link: "", icon: "🧭" },
+      { title: "Chủ đề ICT 2. Tạo phần đầu trang (Header) & Thanh điều hướng", link: "", icon: "🧩" },
+      { title: "Chủ đề ICT 3. Xây dựng thân trang, Đa phương tiện & Biểu mẫu", link: "", icon: "📰" },
+      { title: "Chủ đề ICT 4. Hoàn thiện, tối ưu di động & Xuất bản Website", link: "", icon: "🚀" }
+    ];
+
+    const thuMucTinHoc12 = [
+      {
+        title: "Phần chung – Kiến thức cốt lõi GDPT 2018",
+        image: "",
+        color: "fc-red",
+        unit: "bài",
+        badge: "CHỦ ĐỀ A • B • D • E • F",
+        coverTitle: "PHẦN CHUNG GDPT 2018",
+        coverSub: "SGK Kết nối tri thức • Tin học 12",
+        items: tin12_PhanChung
+      },
+      {
+        title: "Định hướng ICT – Tin học ứng dụng",
+        image: "",
+        color: "fc-green",
+        unit: "bài",
+        badge: "TIN HỌC ỨNG DỤNG",
+        coverTitle: "ĐỊNH HƯỚNG ICT 12",
+        coverSub: "Thiết kế Website • Quản trị Web",
+        items: tin12_DinhHuongICT
+      }
+    ];
+
+    // -------------------------------------------------------------------------
+    // C. DỮ LIỆU MỤC 2: ÔN TẬP CHỦ ĐỀ (3 THƯ MỤC)
+    // -------------------------------------------------------------------------
+    const onTap_MucDo = [
+      { title: "Gói 1. Chuyên đề Trí tuệ nhân tạo (AI) – 3 mức độ", link: "", icon: "🤖" },
+      { title: "Gói 2. Chuyên đề Mạng máy tính & Giao thức TCP/IP", link: "", icon: "🌐" },
+      { title: "Gói 3. Chuyên đề Đạo đức, pháp luật & Văn hóa số", link: "", icon: "🛡️" },
+      { title: "Gói 4. Chuyên đề Tạo trang web HTML5 & CSS", link: "", icon: "🏷️" },
+      { title: "Gói 5. Chuyên đề Thiết kế Website & Bố cục (ICT)", link: "", icon: "🖥️" },
+      { title: "Gói 6. Chuyên đề Thực hành Đa phương tiện & Quản trị Web (ICT)", link: "", icon: "🌐" }
+    ];
+
+    const onTap_BayThuongGap = [
+      { title: "Bẫy 1. Nhầm href (thẻ a) và src (thẻ img, iframe)", link: "", icon: "⚠️" },
+      { title: "Bẫy 2. Nhầm gộp cột colspan và gộp hàng rowspan", link: "", icon: "📐" },
+      { title: "Bẫy 3. Sai độ ưu tiên bộ chọn CSS (#id > .class > thẻ)", link: "", icon: "🎯" },
+      { title: "Bẫy 4. Nhầm vùng đệm padding và lề ngoài margin", link: "", icon: "📦" },
+      { title: "Bẫy 5. Nhầm Hub, Switch (MAC) và Router (IP)", link: "", icon: "🔀" },
+      { title: "Bẫy 6. Nhầm AI hẹp (ANI) với AI tổng quát (AGI)", link: "", icon: "🤖" }
+    ];
+
+    const onTap_DungSai = [
+      { title: "Bộ Đúng/Sai 1. Trí tuệ nhân tạo & Đạo đức số", link: "", icon: "✅" },
+      { title: "Bộ Đúng/Sai 2. Mô hình mạng LAN, thiết bị & IP", link: "", icon: "📡" },
+      { title: "Bộ Đúng/Sai 3. Đọc hiểu mã HTML5 & Biểu mẫu", link: "", icon: "💻" },
+      { title: "Bộ Đúng/Sai 4. Đọc hiểu quy tắc CSS & Box Model", link: "", icon: "🎨" },
+      { title: "Bộ Đúng/Sai 5. Thiết kế Website & Bố cục (ICT)", link: "", icon: "🌐" },
+      { title: "Bộ Đúng/Sai 6. Đa phương tiện & Xuất bản Web (ICT)", link: "", icon: "📱" }
+    ];
+
+    const thuMucOnTap = [
+      {
+        title: "Phân loại Nhận biết – Thông hiểu – Vận dụng",
+        image: "",
+        color: "fc-red",
+        unit: "gói",
+        badge: "NHẬN BIẾT • THÔNG HIỂU • VẬN DỤNG",
+        coverTitle: "PHÂN LOẠI MỨC ĐỘ",
+        coverSub: "Theo ma trận đề thi Bộ GD&ĐT",
+        items: onTap_MucDo
+      },
+      {
+        title: "Chuyên mục Bẫy thường gặp & Mẹo nhớ nhanh",
+        image: "",
+        color: "fc-orange",
+        unit: "mục",
+        badge: "TRÁNH MẤT ĐIỂM OAN",
+        coverTitle: "BẪY THƯỜNG GẶP",
+        coverSub: "Tổng hợp lỗi hay nhầm & Mẹo nhớ nhanh",
+        items: onTap_BayThuongGap
+      },
+      {
+        title: "Luyện dạng Đúng/Sai 4 ý (a, b, c, d) chuẩn Bộ",
+        image: "",
+        color: "fc-purple",
+        unit: "bộ",
+        badge: "THANG LŨY TIẾN 0,1 - 0,25 - 0,5 - 1,0Đ",
+        coverTitle: "LUYỆN ĐÚNG / SAI 4 Ý",
+        coverSub: "Dạng câu hỏi phân hóa điểm cao nhất",
+        items: onTap_DungSai
+      }
+    ];
+
+    // -------------------------------------------------------------------------
+    // D. DỮ LIỆU MỤC 3: ĐỀ THI THỬ TỐT NGHIỆP (2 THƯ MỤC CHUẨN BỘ & ICT)
+    // -------------------------------------------------------------------------
+    const thiThu_ChuanBo = [
+      { title: "Đề thi thử số 01 – Chuẩn cấu trúc minh họa Bộ GD&ĐT", link: "", icon: "🔥" },
+      { title: "Đề thi thử số 02 – Tổng hợp kiến thức HK1 & HK2", link: "", icon: "📝" },
+      { title: "Đề thi thử số 03 – Trọng tâm HTML/CSS & Mạng", link: "", icon: "🎯" },
+      { title: "Đề thi thử số 04 – Tăng cường Đúng/Sai thực tế", link: "", icon: "⭐" },
+      { title: "Đề thi thử số 05 – Đề tham khảo Sở GD&ĐT Quảng Trị", link: "", icon: "🏛️" },
+      { title: "Đề thi thử số 06 – Đề tổng ôn nước rút trước kỳ thi", link: "", icon: "🏆" }
+    ];
+
+    const thiThu_BanICT = [
+      { title: "Đề ICT số 01 – Trọng tâm Thiết kế Website & HTML/CSS", link: "", icon: "🌐" },
+      { title: "Đề ICT số 02 – Trọng tâm Bố cục trang web & Biểu mẫu", link: "", icon: "📱" },
+      { title: "Đề ICT số 03 – Trọng tâm Đa phương tiện & Quản trị web", link: "", icon: "🎨" },
+      { title: "Đề ICT số 04 – Đề tổng hợp chuẩn ban ICT", link: "", icon: "🚀" }
+    ];
+
+    const thuMucThiThu = [
+      {
+        title: "Bộ đề thi thử chuẩn Bộ GD&ĐT (50 phút)",
+        image: "",
+        color: "fc-red",
+        unit: "đề",
+        badge: "50 PHÚT • THANG ĐIỂM 10",
+        coverTitle: "ĐỀ CHUẨN BỘ GD&ĐT",
+        coverSub: "SGK Kết nối tri thức • GDPT 2018",
+        items: thiThu_ChuanBo
+      },
+      {
+        title: "Đề thi thử Định hướng ICT",
+        image: "",
+        color: "fc-teal",
+        unit: "đề",
+        badge: "TIN HỌC ỨNG DỤNG",
+        coverTitle: "ĐỀ THI THỬ BAN ICT",
+        coverSub: "SGK Kết nối tri thức • GDPT 2018",
+        items: thiThu_BanICT
+      }
+    ];
+
+    // -------------------------------------------------------------------------
+    // E. DỮ LIỆU MỤC 4: LIÊN HỆ & GÓC CHIA SẺ (4 THƯ MỤC)
+    // -------------------------------------------------------------------------
+    const lienHe_ThacMac = [
+      { title: "Hỏi đáp bài tập khó môn Tin học 12", link: "", icon: "❓" },
+      { title: "Góp ý cải thiện nội dung & đề thi thử", link: "", icon: "💬" },
+      { title: "Thông tin liên hệ cô Lê Huyền Sinh", link: "", icon: "👩‍🏫" }
+    ];
+
+    const lienHe_TaiLieuPDF = [
+      { title: "Tờ tóm tắt toàn bộ thẻ HTML5 & CSS (PDF A4)", link: "", icon: "📄" },
+      { title: "Ma trận đề thi & Quy tắc tính điểm Bộ GD&ĐT", link: "", icon: "📊" },
+      { title: "Đề cương ôn tập Phần chung (AI, Mạng, HTML/CSS)", link: "", icon: "📘" },
+      { title: "Đề cương ôn tập Định hướng ICT (Thiết kế Web)", link: "", icon: "🌐" }
+    ];
+
+    const lienHe_HuongDan = [
+      { title: "Hướng dẫn ôn tập Tin học 12 hiệu quả trên điện thoại", link: "", icon: "📱" },
+      { title: "Cách thực hành gõ HTML/CSS tại Phòng Lab Code", link: "", icon: "💻" },
+      { title: "Hướng dẫn cách tính điểm Đúng/Sai (0,1 – 0,25 – 0,5 – 1,0đ)", link: "", icon: "🧮" }
+    ];
+
+    const lienHe_GocChiaSe = [
+      { title: "Chia sẻ kinh nghiệm đạt điểm 9+ môn Tin học", link: "", icon: "🌟" },
+      { title: "Góc cảm xúc thanh xuân & Lời nhắn gửi lớp 12", link: "", icon: "💌" },
+      { title: "Thư viện ảnh kỷ niệm học sinh lớp 12", link: "", icon: "📸" }
+    ];
+
+    const thuMucLienHe = [
+      {
+        title: "Kênh gửi thắc mắc & Góp ý",
+        image: "",
+        color: "fc-red",
+        unit: "mục",
+        badge: "HỖ TRỢ HỌC SINH 24/7",
+        coverTitle: "GỬI THẮC MẮC & GÓP Ý",
+        coverSub: "Gửi câu hỏi khó trực tiếp tới cô Lê Huyền Sinh",
+        showContactForm: true,
+        items: lienHe_ThacMac
+      },
+      {
+        title: "Tài liệu PDF ôn thi tải về",
+        image: "",
+        color: "fc-blue",
+        unit: "file",
+        badge: "BẢN IN A4 RÕ NÉT",
+        coverTitle: "TÀI LIỆU PDF ÔN THI",
+        coverSub: "Tóm tắt HTML/CSS • Ma trận • Đề cương ICT",
+        items: lienHe_TaiLieuPDF
+      },
+      {
+        title: "Hướng dẫn sử dụng Website",
+        image: "",
+        color: "fc-green",
+        unit: "mục",
+        badge: "THAO TÁC NHANH GỌN",
+        coverTitle: "HƯỚNG DẪN SỬ DỤNG",
+        coverSub: "Học trên điện thoại • Phòng Lab • Tính điểm",
+        items: lienHe_HuongDan
+      },
+      {
+        title: "Góc chia sẻ & Kỷ niệm học đường",
+        image: "",
+        color: "fc-purple",
+        unit: "mục",
+        badge: "THANH XUÂN LỚP 12",
+        coverTitle: "GÓC CHIA SẺ & KỶ NIỆM",
+        coverSub: "Kinh nghiệm ôn thi • Thư viện ảnh học đường",
+        items: lienHe_GocChiaSe
+      }
+    ];
+  </script>
+
+  <!-- =========================================================================
+       PHẦN XỬ LÝ TỰ ĐỘNG (KHÔNG CẦN CHỈNH SỬA PHẦN BÊN DƯỚI)
+       ========================================================================= -->
+  <script>
+    (function () {
+      'use strict';
+
+      var toastTimer = null;
+      function showToast(msg) {
+        var t = document.getElementById('toastBar');
+        if (!t) return;
+        t.textContent = msg;
+        t.classList.add('show');
+        clearTimeout(toastTimer);
+        toastTimer = setTimeout(function () { t.classList.remove('show'); }, 2600);
+      }
+
+      function normVN(str) {
+        return String(str || '').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/đ/g, 'd');
+      }
+
+      function esc(str) {
+        return String(str || '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+      }
+
+      /* 1. Áp dụng ảnh nền Banner, Logo và Ảnh học sinh từ CAU_HINH_BANNER */
+      function initBannerImages() {
+        var bannerEl = document.getElementById('siteBanner');
+        if (bannerEl && CAU_HINH_BANNER.anhNenBanner && CAU_HINH_BANNER.anhNenBanner.trim() !== '') {
+          var bgUrl = CAU_HINH_BANNER.anhNenBanner.trim();
+          var alpha = typeof CAU_HINH_BANNER.doMoLopPhu === 'number' ? CAU_HINH_BANNER.doMoLopPhu : 0.35;
+          document.documentElement.style.setProperty('--banner-overlay-alpha', String(alpha));
+          bannerEl.style.backgroundImage = 'url("' + bgUrl.replace(/"/g, '\\"') + '")';
+          bannerEl.classList.add('has-bg-image');
+        }
+
+        if (CAU_HINH_BANNER.logoTruong) {
+          var logoImg = document.getElementById('schoolLogoImg');
+          var logoPh = document.getElementById('schoolLogoPh');
+          logoImg.src = CAU_HINH_BANNER.logoTruong;
+          logoImg.classList.remove('hidden');
+          logoPh.classList.add('hidden');
+          logoImg.onerror = function () {
+            logoImg.classList.add('hidden');
+            logoPh.classList.remove('hidden');
+          };
+        }
+
+        if (CAU_HINH_BANNER.anhHocSinh) {
+          var stImg = document.getElementById('studentPhotoImg');
+          var stPh = document.getElementById('studentPhotoPh');
+          stImg.src = CAU_HINH_BANNER.anhHocSinh;
+          stImg.classList.remove('hidden');
+          stPh.classList.add('hidden');
+          if (CAU_HINH_BANNER.anChuTrenAnh) {
+            var cap = document.getElementById('studentCaption');
+            if (cap) cap.classList.add('hidden');
+          }
+          stImg.onerror = function () {
+            stImg.classList.add('hidden');
+            stPh.classList.remove('hidden');
+          };
+        }
+      }
+      initBannerImages();
+
+      /* 2. Bấm chọn ảnh xem thử trực tiếp trên Banner */
+      function bindImagePicker(inputId, imgId, phId, label) {
+        var inp = document.getElementById(inputId);
+        if (!inp) return;
+        inp.addEventListener('change', function () {
+          var file = inp.files && inp.files[0];
+          if (!file) return;
+          var reader = new FileReader();
+          reader.onload = function (ev) {
+            var img = document.getElementById(imgId);
+            var ph = document.getElementById(phId);
+            img.src = ev.target.result;
+            img.classList.remove('hidden');
+            ph.classList.add('hidden');
+            showToast('Đã cập nhật ' + label + ' xem thử!');
+          };
+          reader.readAsDataURL(file);
+        });
+      }
+      bindImagePicker('logoFileInput', 'schoolLogoImg', 'schoolLogoPh', 'Logo trường');
+      bindImagePicker('studentFileInput', 'studentPhotoImg', 'studentPhotoPh', 'Ảnh học sinh ôn thi');
+
+      /* 3. HỆ THỐNG TỰ ĐỘNG VẼ 4 KHU VỰC THƯ MỤC 2 CẤP TỪ DỮ LIỆU */
+      var COVER_PALETTE = {
+        'fc-red':    { c1: '#7f1d1d', c2: '#dc2626', pill: '#1d4ed8', title: '#ffeb3b', sub: '#fee2e2' },
+        'fc-blue':   { c1: '#0f172a', c2: '#1d4ed8', pill: '#0284c7', title: '#38bdf8', sub: '#e0f2fe' },
+        'fc-green':  { c1: '#064e3b', c2: '#15803d', pill: '#059669', title: '#fde047', sub: '#d1fae5' },
+        'fc-orange': { c1: '#7c2d12', c2: '#ea580c', pill: '#dc2626', title: '#fef08a', sub: '#ffedd5' },
+        'fc-purple': { c1: '#3b0764', c2: '#7c3aed', pill: '#9333ea', title: '#f0abfc', sub: '#f3e8ff' },
+        'fc-teal':   { c1: '#134e4a', c2: '#0d9488', pill: '#0f766e', title: '#fef08a', sub: '#ccfbf1' }
+      };
+
+      function buildFallbackCoverSVG(folder, uid) {
+        var pal = COVER_PALETTE[folder.color] || COVER_PALETTE['fc-blue'];
+        var countText = folder.items.length + ' ' + (folder.unit || 'mục');
+        return '' +
+          '<svg viewBox="0 0 400 225" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">' +
+          '<defs><linearGradient id="g' + uid + '" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="' + pal.c1 + '"/><stop offset="100%" stop-color="' + pal.c2 + '"/></linearGradient></defs>' +
+          '<rect width="400" height="225" fill="url(#g' + uid + ')"/>' +
+          '<rect x="24" y="24" width="352" height="177" rx="14" fill="rgba(255,255,255,0.08)" stroke="rgba(255,255,255,0.3)" stroke-width="1.5"/>' +
+          '<rect x="55" y="42" width="290" height="28" rx="14" fill="' + pal.pill + '"/>' +
+          '<text x="200" y="60" text-anchor="middle" fill="#fff" font-size="11.5" font-weight="800" font-family="system-ui,sans-serif">' + esc(folder.badge || 'HÀNH TRÌNH SỐ') + '</text>' +
+          '<text x="200" y="114" text-anchor="middle" fill="' + pal.title + '" font-size="22" font-weight="900" font-family="system-ui,sans-serif">' + esc(folder.coverTitle || folder.title) + '</text>' +
+          '<text x="200" y="144" text-anchor="middle" fill="' + pal.sub + '" font-size="13" font-weight="600" font-family="system-ui,sans-serif">' + esc(folder.coverSub || '') + '</text>' +
+          '<rect x="135" y="162" width="130" height="24" rx="12" fill="rgba(255,255,255,0.2)"/>' +
+          '<text x="200" y="178" text-anchor="middle" fill="#fff" font-size="11.5" font-weight="700" font-family="system-ui,sans-serif">' + esc(countText) + '</text>' +
+          '</svg>';
+      }
+
+      var EXPLORERS = {
+        tinhoc12: {
+          mountId: 'mount-tinhoc12',
+          title: 'TIN HỌC 12 – CHƯƠNG TRÌNH GDPT 2018',
+          sub: 'Chọn thư mục Phần chung hoặc Định hướng ICT (Tin học ứng dụng) để xem danh sách bài học chi tiết.',
+          searchPlaceholder: 'Nhập tên thư mục hoặc bài học cần tìm...',
+          folders: thuMucTinHoc12,
+          activeIdx: -1,
+          query: ''
+        },
+        ontap: {
+          mountId: 'mount-ontap',
+          title: 'ÔN TẬP CHỦ ĐỀ & LUYỆN THI CHUYÊN SÂU',
+          sub: 'Hệ thống hóa kiến thức theo ma trận đề thi Tốt nghiệp THPT của Bộ GD&ĐT.',
+          searchPlaceholder: 'Nhập nội dung ôn tập cần tìm...',
+          folders: thuMucOnTap,
+          activeIdx: -1,
+          query: ''
+        },
+        thithu: {
+          mountId: 'mount-thithu',
+          title: 'ĐỀ THI THỬ TỐT NGHIỆP THPT',
+          sub: 'Cấu trúc chuẩn Bộ GD&ĐT (50 phút): Phần I (24 câu = 6,0đ) + Phần II (4 câu Đúng/Sai = 4,0đ, điểm lũy tiến 0,1 – 0,25 – 0,5 – 1,0đ).',
+          searchPlaceholder: 'Tìm bộ đề thi thử...',
+          folders: thuMucThiThu,
+          activeIdx: -1,
+          query: ''
+        },
+        lienhe: {
+          mountId: 'mount-lienhe',
+          title: 'LIÊN HỆ & GÓC CHIA SẺ',
+          sub: 'Chọn chuyên mục bên dưới để gửi thắc mắc cho giáo viên, tải tài liệu PDF ôn thi, xem hướng dẫn hoặc khám phá góc chia sẻ học đường.',
+          searchPlaceholder: 'Tìm mục liên hệ, tài liệu, chia sẻ...',
+          folders: thuMucLienHe,
+          activeIdx: -1,
+          query: ''
+        }
+      };
+
+      function renderExplorer(key) {
+        var cfg = EXPLORERS[key];
+        var mount = document.getElementById(cfg.mountId);
+        if (!mount) return;
+        var q = normVN(cfg.query).trim();
+
+        if (cfg.activeIdx === -1) {
+          var cardsHtml = '';
+          var shown = 0;
+          for (var i = 0; i < cfg.folders.length; i++) {
+            var f = cfg.folders[i];
+            var matchFolder = !q || normVN(f.title + ' ' + (f.coverTitle || '') + ' ' + (f.coverSub || '')).indexOf(q) !== -1;
+            if (!matchFolder) {
+              for (var m = 0; m < f.items.length; m++) {
+                if (normVN(f.items[m].title).indexOf(q) !== -1) { matchFolder = true; break; }
+              }
+            }
+            if (!matchFolder) continue;
+            shown++;
+
+            var uid = key + '-' + i;
+            var fallbackSvg = buildFallbackCoverSVG(f, uid);
+            var coverInner = f.image
+              ? '<img src="' + esc(f.image) + '" alt="' + esc(f.title) + '" onerror="this.style.display=\'none\';this.nextElementSibling.style.display=\'block\';"><div style="display:none;width:100%;height:100%;">' + fallbackSvg + '</div>'
+              : fallbackSvg;
+
+            cardsHtml += '' +
+              '<button type="button" class="folder-card ' + (f.color || 'fc-blue') + '" data-open-folder="' + key + ':' + i + '">' +
+              '  <div class="folder-cover">' + coverInner + '</div>' +
+              '  <div class="folder-label-row">' +
+              '    <div class="folder-label-left">' +
+              '      <svg width="22" height="22" viewBox="0 0 24 24" fill="#ffffff"><path d="M10 4H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2h-8l-2-2z"/></svg>' +
+              '      <span>' + esc(f.title) + '</span>' +
+              '    </div>' +
+              '    <span class="folder-count-pill">' + f.items.length + ' ' + esc(f.unit || 'mục') + '</span>' +
+              '  </div>' +
+              '</button>';
+          }
+
+          if (shown === 0) {
+            cardsHtml = '<div class="empty-msg">Không tìm thấy thư mục hoặc bài học phù hợp.</div>';
+          }
+
+          mount.innerHTML = '' +
+            '<h2 class="panel-title">' + esc(cfg.title) + '</h2>' +
+            '<p class="panel-sub">' + esc(cfg.sub) + '</p>' +
+            '<div class="pill-search">' +
+            '  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>' +
+            '  <input type="text" class="js-ex-search" data-ex-key="' + key + '" value="' + esc(cfg.query) + '" placeholder="' + esc(cfg.searchPlaceholder) + '" />' +
+            '</div>' +
+            '<div class="folder-grid">' + cardsHtml + '</div>';
+          return;
+        }
+
+        var folder = cfg.folders[cfg.activeIdx];
+        var tilesHtml = '';
+        var tileCount = 0;
+        for (var j = 0; j < folder.items.length; j++) {
+          var item = folder.items[j];
+          if (q && normVN(item.title).indexOf(q) === -1) continue;
+          tileCount++;
+          var hasLink = item.link && item.link.trim() !== '' && item.link.trim() !== '#';
+          var href = hasLink ? esc(item.link.trim()) : '#';
+          var targetAttr = (hasLink && /^https?:\/\//i.test(item.link.trim())) ? ' target="_blank" rel="noopener"' : '';
+          var colorCls = 'tile-c' + (j % 8);
+          tilesHtml += '' +
+            '<a href="' + href + '"' + targetAttr + ' class="lesson-tile ' + colorCls + (hasLink ? '' : ' js-empty-link') + '">' +
+            '  <div class="tile-icon-box">' + (item.icon || '📄') + '</div>' +
+            '  <div class="tile-title">' + esc(item.title) + '</div>' +
+            '</a>';
+        }
+
+        if (tileCount === 0) {
+          tilesHtml = '<div class="empty-msg">Không tìm thấy nội dung phù hợp trong thư mục này.</div>';
+        }
+
+        var extraFormHtml = folder.showContactForm
+          ? '<div class="contact-form-card">' +
+            '  <h3 style="color:#d32f2f;font-size:17.5px;font-weight:900;margin-bottom:12px;text-transform:uppercase;">Biểu mẫu gửi câu hỏi nhanh cho giáo viên</h3>' +
+            '  <form id="contactForm">' +
+            '    <div class="form-group"><label class="form-label" for="cName">Họ và tên học sinh *</label><input id="cName" type="text" required class="form-input" placeholder="Ví dụ: Nguyễn Minh Anh" /></div>' +
+            '    <div class="form-group"><label class="form-label" for="cClass">Lớp *</label><input id="cClass" type="text" required class="form-input" placeholder="Ví dụ: 12A6" /></div>' +
+            '    <div class="form-group"><label class="form-label" for="cMsg">Nội dung thắc mắc / góp ý *</label><textarea id="cMsg" required rows="3" class="form-input" placeholder="Nhập câu hỏi khó gửi giáo viên..."></textarea></div>' +
+            '    <button type="submit" class="btn btn-blue" style="width:100%;">Gửi thắc mắc ngay</button>' +
+            '  </form>' +
+            '</div>'
+          : '';
+
+        mount.innerHTML = '' +
+          '<div class="level2-topbar">' +
+          '  <button type="button" class="back-folder-btn" data-back-folder="' + key + '">&larr; Quay lại thư mục</button>' +
+          '  <span style="font-size:14.5px;font-weight:700;color:#475569;">' + folder.items.length + ' ' + esc(folder.unit || 'mục') + '</span>' +
+          '</div>' +
+          '<h2 class="panel-title">' + esc(folder.title) + '</h2>' +
+          '<div class="pill-search">' +
+          '  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>' +
+          '  <input type="text" class="js-ex-search" data-ex-key="' + key + '" value="' + esc(cfg.query) + '" placeholder="Tìm kiếm trong mục này..." />' +
+          '</div>' +
+          '<div class="lesson-tile-grid">' + tilesHtml + '</div>' +
+          extraFormHtml;
+      }
+
+      renderExplorer('tinhoc12');
+      renderExplorer('ontap');
+      renderExplorer('thithu');
+      renderExplorer('lienhe');
+
+      /* 4. Cuộn mượt lên đầu trang khi đổi tab chính */
+      var mainRadios = document.querySelectorAll('input[name="main-nav"]');
+      for (var i = 0; i < mainRadios.length; i++) {
+        mainRadios[i].addEventListener('change', function () {
+          window.scrollTo({ top: 0, behavior: 'smooth' });
+          if (this.id === 'tab-lab') runLab();
+        });
+      }
+
+      /* 5. Tìm kiếm cho 4 khu vực Thư mục và Sổ tay HTML */
+      document.addEventListener('input', function (e) {
+        if (!e.target) return;
+        if (e.target.classList.contains('js-ex-search')) {
+          var key = e.target.getAttribute('data-ex-key');
+          if (!EXPLORERS[key]) return;
+          var pos = e.target.selectionStart;
+          EXPLORERS[key].query = e.target.value;
+          renderExplorer(key);
+          var newInput = document.querySelector('.js-ex-search[data-ex-key="' + key + '"]');
+          if (newInput) {
+            newInput.focus();
+            try { newInput.setSelectionRange(pos, pos); } catch (err) {}
+          }
+          return;
+        }
+        if (e.target.classList.contains('js-hb-search')) {
+          var q = normVN(e.target.value).trim();
+          var items = document.querySelectorAll('.js-hb-item');
+          for (var k = 0; k < items.length; k++) {
+            var txt = normVN(items[k].textContent);
+            items[k].style.display = (!q || txt.indexOf(q) !== -1) ? '' : 'none';
+          }
+        }
+      });
+
+      /* 6. Phòng Lab Code HTML/CSS */
+      var LAB_TASKS = {
+        timetable: {
+          note: '<strong>Bài 1 (Thời khóa biểu):</strong> Cần có <code>&lt;table&gt;</code>, ít nhất 2 hàng <code>&lt;tr&gt;</code>, ô tiêu đề <code>&lt;th&gt;</code>, ô dữ liệu <code>&lt;td&gt;</code> và thuộc tính <code>colspan</code>.',
+          code: '<!DOCTYPE html>\n<html lang="vi">\n<head>\n  <style>\n    body { font-family: Arial, sans-serif; padding: 12px; }\n    table { border-collapse: collapse; width: 100%; }\n    th, td { border: 1px solid #004a99; padding: 8px; text-align: center; }\n    th { background: #004a99; color: #fff; }\n  </style>\n</head>\n<body>\n  <h3>Thời khóa biểu ôn thi Tin 12</h3>\n  <table>\n    <tr><th colspan="3">LỊCH ÔN THI TỐT NGHIỆP</th></tr>\n    <tr><th>Tiết</th><th>Thứ 2</th><th>Thứ 4</th></tr>\n    <tr><td>Tiết 1</td><td>HTML &amp; CSS</td><td>Mạng máy tính</td></tr>\n  </table>\n</body>\n</html>',
+          checks: [
+            { label: 'Có thẻ <table>', fn: function (d) { return !!d.querySelector('table'); } },
+            { label: 'Có ít nhất 2 hàng <tr>', fn: function (d) { return d.querySelectorAll('tr').length >= 2; } },
+            { label: 'Có ô tiêu đề <th>', fn: function (d) { return !!d.querySelector('th'); } },
+            { label: 'Có ô dữ liệu <td>', fn: function (d) { return !!d.querySelector('td'); } },
+            { label: 'Có thuộc tính colspan', fn: function (d) { return !!d.querySelector('[colspan]'); } }
+          ]
+        },
+        clubform: {
+          note: '<strong>Bài 2 (Biểu mẫu CLB):</strong> Cần có <code>&lt;form&gt;</code>, ô nhập <code>&lt;input&gt;</code>, danh sách chọn <code>&lt;select&gt;</code> và nút bấm <code>&lt;button&gt;</code>.',
+          code: '<!DOCTYPE html>\n<html lang="vi">\n<head>\n  <style>\n    body { font-family: Arial, sans-serif; padding: 12px; }\n    form { border: 2px solid #1d4ed8; border-radius: 10px; padding: 14px; max-width: 340px; }\n    input, select, button { width: 100%; padding: 8px; margin-top: 8px; box-sizing: border-box; }\n    button { background: #1d4ed8; color: #fff; border: none; border-radius: 6px; font-weight: bold; }\n  </style>\n</head>\n<body>\n  <form>\n    <h3>Đăng ký CLB Tin Học 12</h3>\n    <input type="text" placeholder="Họ và tên học sinh">\n    <select><option>Thiết kế Website (ICT)</option><option>Lập trình HTML/CSS</option></select>\n    <button type="submit">Gửi đăng ký</button>\n  </form>\n</body>\n</html>',
+          checks: [
+            { label: 'Có thẻ <form>', fn: function (d) { return !!d.querySelector('form'); } },
+            { label: 'Có thẻ <input>', fn: function (d) { return !!d.querySelector('input'); } },
+            { label: 'Có danh sách <select>', fn: function (d) { return !!d.querySelector('select'); } },
+            { label: 'Có nút bấm <button>', fn: function (d) { return !!(d.querySelector('button') || d.querySelector('input[type="submit"]')); } }
+          ]
+        },
+        profile: {
+          note: '<strong>Bài 3 (Thẻ hồ sơ CSS):</strong> Cần có <code>&lt;h1&gt;</code>, <code>&lt;p&gt;</code>, danh sách <code>&lt;ul&gt;&lt;li&gt;</code> và CSS có <code>color</code> và <code>border</code>.',
+          code: '<!DOCTYPE html>\n<html lang="vi">\n<head>\n  <style>\n    body { font-family: Arial, sans-serif; padding: 12px; }\n    .card { border: 2px solid #004a99; border-radius: 12px; padding: 14px; background: #f0f9ff; }\n    h1 { color: #d32f2f; font-size: 20px; }\n  </style>\n</head>\n<body>\n  <div class="card">\n    <h1>Hồ sơ học sinh lớp 12</h1>\n    <p>Mục tiêu: Đạt 9+ môn Tin học Tốt nghiệp THPT!</p>\n    <ul><li>HTML5 &amp; CSS3</li><li>Mạng máy tính &amp; AI</li></ul>\n  </div>\n</body>\n</html>',
+          checks: [
+            { label: 'Có thẻ <h1>', fn: function (d) { return !!d.querySelector('h1'); } },
+            { label: 'Có thẻ <p>', fn: function (d) { return !!d.querySelector('p'); } },
+            { label: 'Có danh sách <ul> và <li>', fn: function (d) { return !!(d.querySelector('ul') && d.querySelector('li')); } },
+            { label: 'Có CSS color', fn: function (d, r) { return /<style[\s\S]*color\s*:/i.test(r); } },
+            { label: 'Có CSS border', fn: function (d, r) { return /<style[\s\S]*border\s*:/i.test(r); } }
+          ]
+        }
+      };
+
+      var currentLab = 'timetable';
+      var labEditor = document.getElementById('labEditor');
+      var labPreview = document.getElementById('labPreview');
+
+      function runLab() {
+        if (labEditor && labPreview) labPreview.srcdoc = labEditor.value;
+      }
+
+      function loadLab(key) {
+        currentLab = key;
+        var t = LAB_TASKS[key] || LAB_TASKS.timetable;
+        document.getElementById('labTaskNote').innerHTML = t.note;
+        labEditor.value = t.code;
+        document.getElementById('labGradeBox').classList.add('hidden');
+        var btns = document.querySelectorAll('[data-lab]');
+        for (var j = 0; j < btns.length; j++) {
+          btns[j].classList.toggle('active', btns[j].getAttribute('data-lab') === key);
+        }
+        runLab();
+      }
+
+      if (labEditor) {
+        labEditor.addEventListener('input', runLab);
+        runLab();
+      }
+
+      /* 7. Gia sư AI offline */
+      function addBubble(role, html) {
+        var box = document.getElementById('aiChatBox');
+        var div = document.createElement('div');
+        div.className = 'chat-bubble ' + role;
+        div.innerHTML = html;
+        box.appendChild(div);
+        box.scrollTop = box.scrollHeight;
+      }
+
+      function getAIReply(q) {
+        var t = normVN(q);
+        if (t.indexOf('src') !== -1 || t.indexOf('href') !== -1 || t.indexOf('<a') !== -1 || t.indexOf('<img') !== -1) {
+          return '<strong>Bắt lỗi HTML:</strong><br>• Thẻ <code>&lt;a&gt;</code> dùng thuộc tính <strong>href</strong> (VD: <code>&lt;a href="bai1.html"&gt;Bài 1&lt;/a&gt;</code>).<br>• Thẻ <code>&lt;img&gt;</code> dùng thuộc tính <strong>src</strong> (VD: <code>&lt;img src="logo.png" alt="Logo"&gt;</code>).';
+        }
+        if (t.indexOf('switch') !== -1 || t.indexOf('router') !== -1 || t.indexOf('hub') !== -1) {
+          return '<strong>Phân biệt 3 thiết bị mạng:</strong><br>• <strong>Hub:</strong> phát tín hiệu ra tất cả các cổng trong LAN.<br>• <strong>Switch:</strong> chuyển gói tin đúng cổng đích nhờ <strong>địa chỉ MAC</strong>.<br>• <strong>Router:</strong> định tuyến gói tin giữa các mạng khác nhau (LAN ra Internet) nhờ <strong>địa chỉ IP</strong>.<br>→ Câu <em>"Switch dùng địa chỉ IP định tuyến ra Internet"</em> là <strong>SAI</strong>.';
+        }
+        if (t.indexOf('ict') !== -1 || t.indexOf('trong tam') !== -1) {
+          return '<strong>Trọng tâm ôn thi Tin học 12 (Định hướng ICT):</strong><br>• <strong>Phần chung:</strong> Trí tuệ nhân tạo (AI), Mạng máy tính (Hub/Switch/Router, TCP/IP), Đạo đức số, HTML5 &amp; CSS3.<br>• <strong>Phần riêng ICT:</strong> Quy trình thiết kế Website, tạo Header/Navigation, thân trang, biểu mẫu và tối ưu hiển thị web.';
+        }
+        return '<strong>Gia sư AI Tin học 12:</strong> Em hãy dán cụ thể đoạn code HTML/CSS đang lỗi hoặc câu hỏi Đúng/Sai về Mạng, AI, HTML/CSS và Thiết kế Web (ICT) để Gia sư giải thích từng bước nhé!';
+      }
+
+      function sendAI(preset) {
+        var inp = document.getElementById('aiInput');
+        var q = (typeof preset === 'string' ? preset : inp.value).trim();
+        if (!q) { showToast('Em hãy nhập câu hỏi trước nhé!'); return; }
+        inp.value = '';
+        addBubble('user', esc(q));
+        setTimeout(function () { addBubble('bot', getAIReply(q)); }, 200);
+      }
+
+      /* 8. Bắt sự kiện click tập trung */
+      document.addEventListener('click', function (e) {
+        var el = e.target;
+        if (!el || !el.closest) return;
+
+        var openBtn = el.closest('[data-open-folder]');
+        if (openBtn) {
+          var parts = openBtn.getAttribute('data-open-folder').split(':');
+          var k = parts[0], idx = parseInt(parts[1], 10);
+          if (EXPLORERS[k]) {
+            EXPLORERS[k].activeIdx = idx;
+            EXPLORERS[k].query = '';
+            renderExplorer(k);
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+          }
+          return;
+        }
+
+        var backBtn = el.closest('[data-back-folder]');
+        if (backBtn) {
+          var bk = backBtn.getAttribute('data-back-folder');
+          if (EXPLORERS[bk]) {
+            EXPLORERS[bk].activeIdx = -1;
+            EXPLORERS[bk].query = '';
+            renderExplorer(bk);
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+          }
+          return;
+        }
+
+        var labBtn = el.closest('[data-lab]');
+        if (labBtn) { loadLab(labBtn.getAttribute('data-lab')); return; }
+
+        if (el.closest('#labRunBtn') || el.closest('#labPrevTabLabel')) {
+          runLab();
+          if (el.closest('#labRunBtn')) {
+            if (window.innerWidth < 960) document.getElementById('lab-tab-prev').checked = true;
+            showToast('Đã chạy mã nguồn HTML/CSS!');
+          }
+          return;
+        }
+
+        if (el.closest('#labResetBtn')) { loadLab(currentLab); showToast('Đã nạp lại mã mẫu!'); return; }
+
+        if (el.closest('#labGradeBtn')) {
+          var t = LAB_TASKS[currentLab];
+          var raw = labEditor.value;
+          var doc = new DOMParser().parseFromString(raw, 'text/html');
+          var okCnt = 0, ul = '';
+          for (var c = 0; c < t.checks.length; c++) {
+            var pass = t.checks[c].fn(doc, raw);
+            if (pass) okCnt++;
+            ul += '<li>' + (pass ? '✔ Đạt: ' : '✘ Thiếu: ') + esc(t.checks[c].label) + '</li>';
+          }
+          var box = document.getElementById('labGradeBox');
+          box.className = 'lab-grade-box ' + (okCnt === t.checks.length ? 'ok' : 'warn');
+          box.innerHTML = '<strong>Kết quả chấm tự động: Đạt ' + okCnt + '/' + t.checks.length + ' tiêu chí</strong><ul>' + ul + '</ul>';
+          return;
+        }
+
+        var copyBtn = el.closest('.js-copy-btn');
+        if (copyBtn) {
+          var card = copyBtn.closest('.hb-card');
+          var src = card && card.querySelector('.js-copy-src');
+          if (src) {
+            var ta = document.createElement('textarea');
+            ta.value = src.textContent;
+            ta.style.position = 'fixed';
+            ta.style.opacity = '0';
+            document.body.appendChild(ta);
+            ta.select();
+            try { document.execCommand('copy'); showToast('Đã sao chép mã mẫu!'); } catch (err) {}
+            document.body.removeChild(ta);
+          }
+          return;
+        }
+
+        var aiQ = el.closest('[data-ai-q]');
+        if (aiQ) { sendAI(aiQ.getAttribute('data-ai-q')); return; }
+        if (el.closest('#aiSendBtn')) { sendAI(); return; }
+
+        var emptyLink = el.closest('.js-empty-link');
+        if (emptyLink) {
+          e.preventDefault();
+          showToast('Mục này chưa gắn link file .html trong khu vực dữ liệu!');
+        }
+      });
+
+      /* 9. Biểu mẫu gửi thắc mắc */
+      document.addEventListener('submit', function (e) {
+        if (e.target && e.target.id === 'contactForm') {
+          e.preventDefault();
+          e.target.reset();
+          showToast('Đã gửi thắc mắc thành công tới cô Lê Huyền Sinh!');
+        }
+      });
+    })();
+  </script>
+</body>
+</html>
