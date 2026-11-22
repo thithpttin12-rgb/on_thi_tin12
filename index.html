@@ -159,7 +159,7 @@
       height: 56px;
       border-radius: 50%;
       background: rgba(255, 255, 255, 0.94);
-      border: 2.5px dashed var(--navy-ink);
+      border: 2.5px solid var(--navy-ink);
       box-shadow: 0 5px 16px rgba(10, 17, 66, 0.22);
       display: flex;
       flex-direction: column;
@@ -169,11 +169,6 @@
       flex-shrink: 0;
       padding: 0;
       color: var(--navy-ink);
-      transition: transform 0.2s ease;
-    }
-
-    .logo-frame:hover {
-      transform: scale(1.04);
     }
 
     .logo-frame img {
@@ -258,11 +253,6 @@
       padding: 0;
       flex-shrink: 0;
       display: block;
-      transition: transform 0.2s ease;
-    }
-
-    .student-frame:hover {
-      transform: scale(1.02);
     }
 
     .student-frame img {
@@ -1529,7 +1519,7 @@
          ========================================================================= -->
     <header id="siteBanner" class="site-banner">
       <div class="banner-inner">
-        <label for="logoFileInput" class="logo-frame" title="Bấm để chọn ảnh Logo trường xem thử">
+        <div class="logo-frame">
           <img id="schoolLogoImg" src="" alt="Logo Trường THPT Phan Đình Phùng" class="hidden" />
           <div id="schoolLogoPh" class="logo-placeholder">
             <svg viewBox="0 0 24 24" fill="none" stroke="#0a1142" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
@@ -1537,8 +1527,7 @@
             </svg>
             <span>Logo<br/>Trường</span>
           </div>
-        </label>
-        <input id="logoFileInput" type="file" accept="image/*" class="hidden" />
+        </div>
 
         <div class="banner-center">
           <div class="banner-eyebrow">🎊  HỆ THỐNG HỌC LIỆU ĐIỆN TỬ  🎊 </div>
@@ -1546,7 +1535,7 @@
           <div class="banner-sub">🎆  Ôn thi Tốt nghiệp THPT (GDPT 2018 - Định hướng ICT) 🎆</div>
         </div>
 
-        <label for="studentFileInput" class="student-frame" title="Bấm để chọn ảnh Học sinh ôn thi xem thử">
+        <div class="student-frame">
           <img id="studentPhotoImg" src="" alt="Ảnh học sinh ôn thi Tin học 12" class="hidden" />
           <div id="studentPhotoPh" class="student-placeholder">
             <svg viewBox="0 0 320 200" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">
@@ -1561,8 +1550,7 @@
             </svg>
           </div>
           <div id="studentCaption" class="student-caption">Ảnh học sinh ôn thi</div>
-        </label>
-        <input id="studentFileInput" type="file" accept="image/*" class="hidden" />
+        </div>
       </div>
     </header>
 
@@ -2733,29 +2721,7 @@
       }
       initBannerImages();
 
-      /* 2. Bấm chọn ảnh xem thử trực tiếp trên Banner */
-      function bindImagePicker(inputId, imgId, phId, label) {
-        var inp = document.getElementById(inputId);
-        if (!inp) return;
-        inp.addEventListener('change', function () {
-          var file = inp.files && inp.files[0];
-          if (!file) return;
-          var reader = new FileReader();
-          reader.onload = function (ev) {
-            var img = document.getElementById(imgId);
-            var ph = document.getElementById(phId);
-            img.src = ev.target.result;
-            img.classList.remove('hidden');
-            ph.classList.add('hidden');
-            showToast('Đã cập nhật ' + label + ' xem thử!');
-          };
-          reader.readAsDataURL(file);
-        });
-      }
-      bindImagePicker('logoFileInput', 'schoolLogoImg', 'schoolLogoPh', 'Logo trường');
-      bindImagePicker('studentFileInput', 'studentPhotoImg', 'studentPhotoPh', 'Ảnh học sinh ôn thi');
-
-      /* 3. HỆ THỐNG TỰ ĐỘNG VẼ 4 KHU VỰC THƯ MỤC 2 CẤP TỪ DỮ LIỆU */
+      /* 2. HỆ THỐNG TỰ ĐỘNG VẼ 4 KHU VỰC THƯ MỤC 2 CẤP TỪ DỮ LIỆU */
       var COVER_PALETTE = {
         'fc-red':    { c1: '#7f1d1d', c2: '#dc2626', pill: '#1d4ed8', title: '#ffeb3b', sub: '#fee2e2' },
         'fc-blue':   { c1: '#0f172a', c2: '#1d4ed8', pill: '#0284c7', title: '#38bdf8', sub: '#e0f2fe' },
